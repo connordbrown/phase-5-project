@@ -39,6 +39,8 @@ class User(db.Model, SerializerMixin):
     
     @validates('email')
     def validate_email(self, key, email):
+        if not email:
+            raise ValueError("User must have an email")
         if ('@' and '.') not in email:
             raise ValueError("User must have a valid email")
         if User.query.filter(User.email == email).first():

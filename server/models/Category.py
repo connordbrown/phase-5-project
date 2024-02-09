@@ -10,3 +10,12 @@ class Category(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String, unique=True, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
+
+    # validation for attributes
+    @validates('title')
+    def validate_title(self, key, title):
+        if not title:
+            raise ValueError("Category must have a title")
+        if Category.query.filter(Category.title == title):
+            raise ValueError(f"Title '{title}' is already taken")
+        return title
