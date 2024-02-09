@@ -1,5 +1,4 @@
 from faker import Faker
-from random import choice as rc
 from datetime import datetime
 
 from config import app, db
@@ -71,4 +70,4 @@ if __name__ == "__main__":
     
 
     db.session.commit()  
-    print("Seeding complete")
+    print("Seeding complete.")

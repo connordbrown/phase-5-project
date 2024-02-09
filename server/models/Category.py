@@ -11,6 +11,10 @@ class Category(db.Model, SerializerMixin):
     title = db.Column(db.String, unique=True, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
 
+    # object representation
+    def __repr__(self):
+        return f'<Category: {self.title}, ID: {self.id}>'
+
     # validation for attributes
     @validates('title')
     def validate_title(self, key, title):

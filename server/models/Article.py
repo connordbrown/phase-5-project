@@ -15,3 +15,5 @@ class Article(db.Model, SerializerMixin):
     # foreign keys to associate articles to a user and a category
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
+
+    

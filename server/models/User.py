@@ -16,7 +16,7 @@ class User(db.Model, SerializerMixin):
 
     # object representation
     def __repr__(self):
-        return f'User: {self.username}, ID: {self.id}'
+        return f'<User: {self.username}, ID: {self.id}>'
 
     # validation for attributes/properties
     @validates('username')
@@ -47,6 +47,7 @@ class User(db.Model, SerializerMixin):
             raise ValueError(f"Email '{email}' is already taken")
         return email
     
+    # password authentication
     @hybrid_property
     def password_hash(self):
         raise AttributeError("Password access denied")
