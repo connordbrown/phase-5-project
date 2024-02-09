@@ -17,3 +17,14 @@ class User(db.Model, SerializerMixin):
     # object representation
     def __repr__(self):
         return f'User: {self.username}, ID: {self.id}'
+
+    # validation for attributes/properties
+    @validates('username')
+    def validate_username(self, key, username):
+        if not username:
+            raise ValueError("User must have a username")
+        if User.query.filter(User.username == username).first():
+            raise ValueError(f"Username '{username}' is already taken")
+        return username
+
+
