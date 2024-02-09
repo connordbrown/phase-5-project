@@ -44,3 +44,12 @@ class User(db.Model, SerializerMixin):
         if User.query.filter(User.email == email).first():
             raise ValueError(f"Email '{email}' is already taken")
         return email
+    
+    @hybrid_property
+    def password_hash(self):
+        raise AttributeError("Password access denied")
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
