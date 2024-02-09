@@ -22,3 +22,9 @@ class Tag(db.Model, SerializerMixin):
             raise ValueError("Tag must have a title")
         return title
     
+    @validates('timestamp')
+    def validate_timestamp(self, key, timestamp):
+        if not timestamp:
+            raise ValueError("Tag must have a timestamp")
+        return timestamp
+    
