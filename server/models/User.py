@@ -13,3 +13,7 @@ class User(db.Model, SerializerMixin):
     age = db.Column(db.Integer, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String)
+
+    # object representation
+    def __repr__(self):
+        return f'User: {self.username}, ID: {self.id}'
