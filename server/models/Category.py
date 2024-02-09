@@ -23,3 +23,9 @@ class Category(db.Model, SerializerMixin):
         if Category.query.filter(Category.title == title).first():
             raise ValueError(f"Title '{title}' is already taken")
         return title
+    
+    @validates('timestamp')
+    def validate_timestamp(self, key, timestamp):
+        if not timestamp:
+            raise ValueError("Category must have a timestamp")
+        return timestamp

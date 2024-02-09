@@ -33,3 +33,8 @@ class Article(db.Model, SerializerMixin):
             raise ValueError("Article must have content")
         return content
     
+    @validates('timestamp')
+    def validate_timestamp(self, key, timestamp):
+        if not timestamp:
+            raise ValueError("Article must have a timestamp")
+        return timestamp
