@@ -36,3 +36,11 @@ class User(db.Model, SerializerMixin):
         if not (10 <= age <= 120):
             raise ValueError("User age must be between ages of 10 and 120 years")
         return age
+    
+    @validates('email')
+    def validate_email(self, key, email):
+        if ('@' and '.') not in email:
+            raise ValueError("User must have a valid email")
+        if User.query.filter(User.email == email).first():
+            raise ValueError(f"Email '{email}' is already taken")
+        return email
