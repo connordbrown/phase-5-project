@@ -38,3 +38,17 @@ class Article(db.Model, SerializerMixin):
         if not timestamp:
             raise ValueError("Article must have a timestamp")
         return timestamp
+    
+    @validates('user_id')
+    def validate_user_id(self, key, user_id):
+        if not user_id:
+            raise ValueError("Article must have a user ID")
+        if not isinstance(user_id, int):
+            raise ValueError("User ID must be an integer")
+        
+        # for checking if user_id exists
+        from User import User
+        if not User.query.filter(User.id == user_id).first():
+            raise ValueError("Article must have an existing user ID")
+        
+        return user_id
