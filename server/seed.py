@@ -67,7 +67,34 @@ if __name__ == "__main__":
 
     db.session.add_all(categories)
 
-    
+
+    ##### Article seed data #####
+    print("Creating articles...")
+    articles = []
+
+    start_date = datetime(2024, 1, 1, 14, 24, 32)
+    end_date = datetime(2024, 1, 18, 20, 46, 51)
+
+    for i in range(10):
+      title = fake.sentence(nb_words=5)
+      content = fake.paragraph(nb_sentences=5)
+      timestamp = fake.date_time_between(start_date, end_date)
+      user_id = fake.random_int(min=1, max=10)
+      category_id = fake.random_int(min=1, max=8)
+
+      article = Article(
+        title=title,
+        content=content,
+        timestamp=timestamp,
+        user_id=user_id,
+        category_id=category_id
+      )
+
+      articles.append(article)
+
+    # sort articles by date created
+    sorted_articles = sorted(articles, key=lambda x: x.timestamp, reverse=True)
+    db.session.add_all(sorted_articles)
 
     db.session.commit()  
     print("Seeding complete.")

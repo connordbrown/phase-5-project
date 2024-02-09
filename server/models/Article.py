@@ -47,7 +47,7 @@ class Article(db.Model, SerializerMixin):
             raise ValueError("User ID must be an integer")
         
         # check if user_id exists in database
-        from User import User
+        from models.User import User
         if not User.query.filter(User.id == user_id).first():
             raise ValueError("Article must have an existing user ID")
         
@@ -61,7 +61,7 @@ class Article(db.Model, SerializerMixin):
             raise ValueError("Category ID must be an integer")
         
         # check if category_id exists in database
-        from Category import Category
+        from models.Category import Category
         if not Category.query.filter(Category.id == category_id).first():
             raise ValueError("Article must have an existing category ID")
         
