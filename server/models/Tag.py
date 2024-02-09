@@ -10,3 +10,8 @@ class Tag(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String, unique=True, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
+
+    # object representation
+    def __repr__(self):
+        return f'<Tag: {self.title}, ID: {self.id}>'
+    
