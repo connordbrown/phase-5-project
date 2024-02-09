@@ -27,3 +27,9 @@ class Article(db.Model, SerializerMixin):
             raise ValueError("Article must have a title")
         return title
     
+    @validates('content')
+    def validate_content(self, key, content):
+        if not content:
+            raise ValueError("Article must have content")
+        return content
+    
