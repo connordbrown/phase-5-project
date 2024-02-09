@@ -46,9 +46,23 @@ class Article(db.Model, SerializerMixin):
         if not isinstance(user_id, int):
             raise ValueError("User ID must be an integer")
         
-        # for checking if user_id exists
+        # check if user_id exists in database
         from User import User
         if not User.query.filter(User.id == user_id).first():
             raise ValueError("Article must have an existing user ID")
         
         return user_id
+    
+    @validates('category_id')
+    def validate_category_id(self, key, category_id):
+        if not category_id:
+            raise ValueError("Article must have a category ID")
+        if not isinstance(category_id, int):
+            raise ValueError("Category ID must be an integer")
+        
+        # check if category_id exists in database
+        from Category import Category
+        if not Category.query.filter(Category.id == category_id).first():
+            raise ValueError("Article must have an existing category ID")
+        
+        return category_id
