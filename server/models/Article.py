@@ -16,4 +16,6 @@ class Article(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
 
-    
+    # object representation
+    def __repr__(self):
+        return f'<Article: {self.title}, ID: {self.id}>'
