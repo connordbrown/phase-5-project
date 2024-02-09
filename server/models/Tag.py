@@ -15,3 +15,10 @@ class Tag(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Tag: {self.title}, ID: {self.id}>'
     
+    # validation for attributes
+    @validates('title')
+    def validate_title(self, key, title):
+        if not title:
+            raise ValueError("Tag must have a title")
+        return title
+    
