@@ -19,3 +19,11 @@ class Article(db.Model, SerializerMixin):
     # object representation
     def __repr__(self):
         return f'<Article: {self.title}, ID: {self.id}>'
+    
+    # validation for attributes
+    @validates('title')
+    def validate_title(self, key, title):
+        if not title:
+            raise ValueError("Article must have a title")
+        return title
+    
