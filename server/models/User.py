@@ -26,5 +26,13 @@ class User(db.Model, SerializerMixin):
         if User.query.filter(User.username == username).first():
             raise ValueError(f"Username '{username}' is already taken")
         return username
-
-
+    
+    @validates('age')
+    def validate_age(self, key, age):
+        if not age:
+            raise ValueError("User must have an age")
+        if not isinstance(age, int):
+            raise ValueError("Age must be an integer")
+        if not (10 <= age <= 120):
+            raise ValueError("User age must be between ages of 10 and 120 years")
+        return age
