@@ -16,6 +16,6 @@ class Category(db.Model, SerializerMixin):
     def validate_title(self, key, title):
         if not title:
             raise ValueError("Category must have a title")
-        if Category.query.filter(Category.title == title):
+        if Category.query.filter(Category.title == title).first():
             raise ValueError(f"Title '{title}' is already taken")
         return title

@@ -1,4 +1,5 @@
 from faker import Faker
+from random import choice as rc
 from datetime import datetime
 
 from config import app, db
@@ -12,6 +13,7 @@ if __name__ == "__main__":
   with app.app_context():
     print("Deleting all records...")
     User.query.delete()
+    Category.query.delete()
 
     # create Faker instance
     fake = Faker()
@@ -46,6 +48,27 @@ if __name__ == "__main__":
 
     db.session.add_all(users)
 
+
+    ##### Category Seed Data #####
+    print("Creating categories...")
+    categories = []
+    titles = ['Science', 'Technology', 'Music', 'Sports', 'Entertainment', 'Finance', 'Literature', 'Miscellaneous']
+
+    start_date = datetime(2024, 1, 1, 14, 24, 32)
+    end_date = datetime(2024, 1, 18, 20, 46, 51)
+
+
+    for title in titles:
+      category = Category(
+        title = title,
+        timestamp = fake.date_time_between(start_date, end_date)
+      )
+
+      categories.append(category)
+
+    db.session.add_all(categories)
+
+    
 
     db.session.commit()  
     print("Seeding complete")
