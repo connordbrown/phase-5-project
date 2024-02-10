@@ -3,6 +3,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
+from models.Article import Article
 
 class Category(db.Model, SerializerMixin):
     __tablename__ = 'categories'
@@ -10,6 +11,15 @@ class Category(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String, unique=True, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
+
+    # relationship mapping category to related articles
+    articles = db.relationship('Article', back_populates='category', cascade='all, delete-orphan')
+
+    # rules to prevent recursion error
+    serialize_rules = ('-articles.category', '-articles.user',)
+
+    # association proxy to get users who created articles of this category through articles
+    article_users = association_proxy('articles', 'user', creator=lambda user_obj: Article(user=user_obj))
 
     # object representation
     def __repr__(self):

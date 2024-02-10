@@ -4,6 +4,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db, bcrypt
+from models.Article import Article
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -13,6 +14,15 @@ class User(db.Model, SerializerMixin):
     age = db.Column(db.Integer, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String)
+
+    # relationship mapping user to related articles
+    articles = db.relationship('Article', back_populates='user', cascade='all, delete-orphan')
+
+    # rules to prevent recursion error
+    serialize_rules = ('-articles.user', '-articles.category',)
+
+    # association proxy to get categories of articles by this user through articles
+    article_categories = association_proxy('articles', 'category', creator=lambda category_obj: Article(category=category_obj))
 
     # object representation
     def __repr__(self):

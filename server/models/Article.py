@@ -16,6 +16,14 @@ class Article(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
 
+    # relationship mapping article to related user
+    user = db.relationship('User', back_populates='articles')
+    # relationship mapping article to related category
+    category = db.relationship('Category', back_populates='articles')
+
+    # rules to prevent recursion error
+    serialize_rules = ('-user.articles', '-category.articles',)
+
     # object representation
     def __repr__(self):
         return f'<Article: {self.title}, ID: {self.id}>'

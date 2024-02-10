@@ -6,3 +6,4 @@ article_tags = db.Table(
     db.Column('article_id', db.Integer, db.ForeignKey('articles.id'), primary_key=True, nullable=False),
     db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True, nullable=False)
 )
+
