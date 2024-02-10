@@ -3,6 +3,8 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
+# for relationship with articles
+from models.ArticleTag import article_tags
 
 class Tag(db.Model, SerializerMixin):
     __tablename__ = 'tags'
@@ -10,6 +12,9 @@ class Tag(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String, unique=True, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
+
+    # relationship mapping the tag to related articles
+    articles = db.relationship('Article', secondary=article_tags, back_populates='tags')
 
     # object representation
     def __repr__(self):

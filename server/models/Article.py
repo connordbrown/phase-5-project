@@ -3,6 +3,8 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
+# for relationship with tags
+from models.ArticleTag import article_tags
 
 class Article(db.Model, SerializerMixin):
     __tablename__ = 'articles'
@@ -20,6 +22,9 @@ class Article(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='articles')
     # relationship mapping article to related category
     category = db.relationship('Category', back_populates='articles')
+
+    # relationship mapping the article to related tags
+    tags = db.relationship('Tag', secondary=article_tags, back_populates='articles')
 
     # rules to prevent recursion error
     serialize_rules = ('-user.articles', '-category.articles',)

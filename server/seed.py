@@ -1,10 +1,12 @@
 from faker import Faker
 from datetime import datetime
+from random import choice
 
 from config import app, db
 
 from models.User import User
 from models.Category import Category
+from models.ArticleTag import article_tags
 from models.Article import Article
 from models.Tag import Tag
 
@@ -15,6 +17,10 @@ if __name__ == "__main__":
     Category.query.delete()
     Article.query.delete()
     Tag.query.delete()
+
+    # for deleting association
+    db.session.query(article_tags).delete()
+    db.session.commit()
 
     # create Faker instance
     fake = Faker()
@@ -94,10 +100,6 @@ if __name__ == "__main__":
 
       articles.append(article)
 
-    # sort articles by date created
-    sorted_articles = sorted(articles, key=lambda x: x.timestamp, reverse=True)
-    db.session.add_all(sorted_articles)
-
 
     ##### Tag seed data #####
     print("Creating tags...")
@@ -125,7 +127,25 @@ if __name__ == "__main__":
 
       tags.append(tag)
 
+
+    ##### Article-Tag seed data #####
+    print("Creating article tags...")
+
+    # add tags to articles - many-to-many relationship
+    for article in articles:
+      for i in range(2):
+        # ensure article tags are unique
+        new_tag = choice(tags)
+        while new_tag in article.tags:
+          new_tag = choice(tags)
+        article.tags.append(new_tag)
+        
+
     # sort articles by date created
+    sorted_articles = sorted(articles, key=lambda x: x.timestamp, reverse=True)
+    db.session.add_all(sorted_articles)
+    
+    # sort tags by date created
     sorted_tags = sorted(tags, key=lambda x: x.timestamp, reverse=True)
     db.session.add_all(sorted_tags)
 
