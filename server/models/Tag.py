@@ -1,6 +1,5 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
-from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
 # for relationship with articles
@@ -15,6 +14,9 @@ class Tag(db.Model, SerializerMixin):
 
     # relationship mapping the tag to related articles
     articles = db.relationship('Article', secondary=article_tags, back_populates='tags')
+
+    # rules to prevent recursion error
+    serialize_rules = ('-articles.tags',)
 
     # object representation
     def __repr__(self):
