@@ -4,7 +4,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db, bcrypt
-# for association proxy
+# for association proxy between User and Category
 from models.Article import Article
 
 class User(db.Model, SerializerMixin):

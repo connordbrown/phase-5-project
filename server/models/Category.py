@@ -3,7 +3,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
-# for association proxy
+# for association proxy between Category and User
 from models.Article import Article
 
 class Category(db.Model, SerializerMixin):
