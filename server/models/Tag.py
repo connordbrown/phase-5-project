@@ -20,6 +20,8 @@ class Tag(db.Model, SerializerMixin):
     def validate_title(self, key, title):
         if not title:
             raise ValueError("Tag must have a title")
+        if Tag.query.filter(Tag.title == title).first():
+            raise ValueError(f"Title '{title}' is already in use")
         return title
     
     @validates('timestamp')

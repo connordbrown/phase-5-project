@@ -13,6 +13,8 @@ if __name__ == "__main__":
     print("Deleting all records...")
     User.query.delete()
     Category.query.delete()
+    Article.query.delete()
+    Tag.query.delete()
 
     # create Faker instance
     fake = Faker()
@@ -95,6 +97,38 @@ if __name__ == "__main__":
     # sort articles by date created
     sorted_articles = sorted(articles, key=lambda x: x.timestamp, reverse=True)
     db.session.add_all(sorted_articles)
+
+
+    ##### Tag seed data #####
+    print("Creating tags...")
+    tags = []
+
+    start_date = datetime(2024, 1, 1, 14, 24, 32)
+    end_date = datetime(2024, 1, 18, 20, 46, 51)
+
+    science_tags = ['Physics', 'Chemistry', 'Biology', 'Astronomy', 'Physiology']
+    technology_tags = ['JavaScript', 'Python', 'C++', 'Rust', 'Go', 'Java', 'Ruby']
+    music_tags = ['Jazz', 'Classical', 'Rock', 'Metal', 'Pop', 'Alternative']
+    sports_tags = ['Football', 'Soccer', 'Basketball', 'Baseball', 'Rugby', 'Boxing', 'Wrestling']
+    entertainment_tags = ['Disney', 'Marvel', 'DC', 'DreamWorks', 'ESPN', 'News']
+    finance_tags = ['FinTech', 'Stocks', 'Venture Capital', 'Cryptocurrency', 'Investing', 'Retirement']
+    literature_tags = ['Sci-Fi', 'Romance', 'Thriller', 'Mystery', 'Horror', 'Nonfiction']
+    miscellaneous_tags = ['Kung-Fu', 'Dogs', 'Cats', 'Memes', 'Travel']
+
+    tag_titles = science_tags + technology_tags + music_tags + sports_tags + entertainment_tags + finance_tags + literature_tags + miscellaneous_tags
+
+    for title in tag_titles:
+      tag = Tag(
+        title=title,
+        timestamp=fake.date_time_between(start_date, end_date)
+      )
+
+      tags.append(tag)
+
+    # sort articles by date created
+    sorted_tags = sorted(tags, key=lambda x: x.timestamp, reverse=True)
+    db.session.add_all(sorted_tags)
+
 
     db.session.commit()  
     print("Seeding complete.")

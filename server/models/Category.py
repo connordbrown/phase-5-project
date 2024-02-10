@@ -21,7 +21,7 @@ class Category(db.Model, SerializerMixin):
         if not title:
             raise ValueError("Category must have a title")
         if Category.query.filter(Category.title == title).first():
-            raise ValueError(f"Title '{title}' is already taken")
+            raise ValueError(f"Title '{title}' is already in use")
         return title
     
     @validates('timestamp')
