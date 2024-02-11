@@ -15,5 +15,13 @@ def home():
   return '<h1>Welcome to Articles!</h1>'
 
 
+##### User Resources #####
+class Users(Resource):
+  def get(self):
+    if users_dict_list := [u.to_dict() for u in User.query.all()]:
+      return make_response(users_dict_list, 200)
+    return make_response({'error': '404: Users Not Found'}, 404)
+api.add_resource(Users, '/api/users')
+
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
