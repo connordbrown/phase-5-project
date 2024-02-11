@@ -18,7 +18,7 @@ if __name__ == "__main__":
     Article.query.delete()
     Tag.query.delete()
 
-    # for deleting association
+    # for deleting article-tag associations
     db.session.query(article_tags).delete()
     db.session.commit()
 
@@ -139,7 +139,7 @@ if __name__ == "__main__":
         while new_tag in article.tags:
           new_tag = choice(tags)
         article.tags.append(new_tag)
-        
+
 
     # sort articles by date created
     sorted_articles = sorted(articles, key=lambda x: x.timestamp, reverse=True)

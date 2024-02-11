@@ -10,6 +10,10 @@ from models.ArticleTag import article_tags
 from models.Article import Article
 from models.Tag import Tag
 
+@app.route('/')
+def home():
+  return '<h1>Welcome to Articles!</h1>'
+
 
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
