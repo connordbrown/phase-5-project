@@ -23,27 +23,28 @@ class Users(Resource):
     return make_response({'error': '404: Users Not Found'}, 404)
   
   def post(self):
+    # check that request attributes have values
+    for key, val in request.json.items():
+      if not val:
+        return make_response({'error': f'400: User must have a(n) {key}'}, 400)
+      
     username = request.json.get('username')
     # age received as string - must convert to int
     age = int(request.json.get('age'))
     email = request.json.get('email')
     password = request.json.get('password')
 
-    # input validations
-    for attribute in [username, age, email, password]:
-      if not attribute:
-        return make_response({'error': f'400: User must have a(n) {attribute}'}, 400)
-      
+    # other input validations
     if not isinstance(age, int):
       return make_response({'error': 'Age must be an integer'}, 400)
     if not (10 <= age <= 120):
       return make_response({'error': 'Age must be between 10 and 120 years'}, 400)
-    if ('@' or '.') not in email:
+    if '@' not in email or '.' not in email:
       return make_response({'error': 'Invalid email'}, 400)
 
     new_user = User(
       username=username,
-      age=age,
+      age=age, 
       email=email
     )
 
