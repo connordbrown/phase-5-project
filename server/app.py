@@ -73,5 +73,13 @@ class Login(Resource):
     return make_response({'error': '401: Invalid Username'}, 401)
 api.add_resource(Login, '/login')
 
+class Logout(Resource):
+  def delete(self):
+    if session.get('user_id'):
+      session['user_id'] = None
+      return make_response({}, 204)
+    return make_response({'error': '401: User not logged in'}, 401)
+api.add_resource(Logout, '/logout')
+
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
