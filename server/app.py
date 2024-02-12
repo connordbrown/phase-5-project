@@ -124,5 +124,15 @@ class Categories(Resource):
       return make_response({'error': '422: Unprocessable Entity'}, 422)   
 api.add_resource(Categories, '/api/categories')
 
+
+##### Articles Resources #####
+class Articles(Resource):
+  def get(self):
+    if article_dict_list := [a.to_dict() for a in Article.query.all()]:
+      return make_response(article_dict_list, 200)
+    return make_response({'error': '404: Articles Not Found'}, 404)
+api.add_resource(Articles, '/api/articles')
+  
+
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
