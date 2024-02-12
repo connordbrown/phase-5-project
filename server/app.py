@@ -71,7 +71,7 @@ class Login(Resource):
         return make_response(user.to_dict(), 200)
       return make_response({'error': '401 Invalid Password'}, 401)
     return make_response({'error': '401: Invalid Username'}, 401)
-api.add_resource(Login, '/login')
+api.add_resource(Login, '/api/login')
 
 class Logout(Resource):
   def delete(self):
@@ -79,14 +79,23 @@ class Logout(Resource):
       session['user_id'] = None
       return make_response({}, 204)
     return make_response({'error': '401: User not logged in'}, 401)
-api.add_resource(Logout, '/logout')
+api.add_resource(Logout, '/api/logout')
 
 class CheckSession(Resource):
   def get(self):
     if user := User.query.filter(User.id == session.get('user_id')).first():
       return make_response(user.to_dict(), 200)
     return make_response({'error': '401: User not logged in'}, 401)
-api.add_resource(CheckSession, '/check_session')
+api.add_resource(CheckSession, '/api/check_session')
+
+
+##### Category Resources #####
+class Categories(Resource):
+  def get(self):
+    if categories_dict_list := [c.to_dict() for c in Category.query.all()]:
+      return make_response(categories_dict_list, 200)
+    return make_response({'error': '404: Categories Not Found'}, 404)
+api.add_resource(Categories, '/api/categories')
 
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
