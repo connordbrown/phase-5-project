@@ -218,5 +218,14 @@ class ArticleByCategory(Resource):
 # articles are associated with a specific category  
 api.add_resource(ArticleByCategory, '/api/categories/<int:category_id>/articles/<int:article_id>')
 
+
+##### Tag Resources #####
+class Tags(Resource):
+  def get(self):
+    if tags_dict_list := [t.to_dict() for t in Tag.query.all()]:
+      return make_response(tags_dict_list, 200)
+    return make_response({'error': '404: Tags Not Found'}, 404)
+api.add_resource(Tags, '/api/tags')
+
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
