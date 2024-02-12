@@ -95,6 +95,33 @@ class Categories(Resource):
     if categories_dict_list := [c.to_dict() for c in Category.query.all()]:
       return make_response(categories_dict_list, 200)
     return make_response({'error': '404: Categories Not Found'}, 404)
+  
+  def post(self):
+    # check that request attributes have values
+    for key, val in request.json.items():
+      if not val:
+        return make_response({'error': f'400: User must have a(n) {key}'}, 400)
+      
+    # user must be logged in to make a Category
+    if not session.get('user_id'):
+      return make_response({'error': '401: User not logged in'}, 401)
+    
+    title = request.json.get('title')
+    timestamp = datetime.now()
+
+    new_category = Category(
+      title=title,
+      timestamp=timestamp
+    )
+
+    try:
+      db.session.add(new_category)
+      db.session.commit()
+      # get category id with response data
+      new_category_data = db.session.get(Category, new_category.id)
+      return make_response(new_category_data.to_dict(), 201)
+    except IntegrityError:
+      return make_response({'error': '422: Unprocessable Entity'}, 422)   
 api.add_resource(Categories, '/api/categories')
 
 if __name__ == "__main__":
