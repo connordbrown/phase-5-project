@@ -176,5 +176,35 @@ class ArticlesByCategory(Resource):
 # articles are associated with a specific category
 api.add_resource(ArticlesByCategory, '/api/categories/<int:category_id>/articles')
 
+class ArticleByCategory(Resource):
+  def patch(self, category_id, article_id):
+    # user must be logged in to edit an article
+    if not session.get('user_id'):
+      return make_response({'error': '401: User not logged in'}, 401)
+    
+    # check that request attributes have values
+    for key, val in request.json.items():
+      if not val:
+        return make_response({'error': f'400: Article must have a(n) {key}'}, 400)
+      
+    # check that article exists
+    if article := Article.query.filter(Article.category_id == category_id, Article.id == article_id).first():
+      # update article attributes
+      for attr in request.json:
+        setattr(article, attr, request.json.get(attr))
+      # ensure correct category_id value by reassigning to current view_arg
+      category_id = request.view_args.get('category_id')
+      article.category_id = category_id
+      # assign new timestamp for edited article
+      article.timestamp = datetime.now()
+      try:
+        db.session.add(article)
+        db.session.commit()
+        return make_response(article.to_dict(), 200)
+      except IntegrityError:
+        return make_response({'error': '422: Unprocessable Entity'}, 422)
+    return make_response({'error': '404: Article Not Found'}, 404)
+api.add_resource(ArticleByCategory, '/api/categories/<int:category_id>/articles/<int:article_id>')
+
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
