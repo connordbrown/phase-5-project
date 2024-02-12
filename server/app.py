@@ -97,15 +97,15 @@ class Categories(Resource):
     return make_response({'error': '404: Categories Not Found'}, 404)
   
   def post(self):
+    # user must be logged in to make a Category
+    if not session.get('user_id'):
+      return make_response({'error': '401: User not logged in'}, 401)
+    
     # check that request attributes have values
     for key, val in request.json.items():
       if not val:
         return make_response({'error': f'400: User must have a(n) {key}'}, 400)
       
-    # user must be logged in to make a Category
-    if not session.get('user_id'):
-      return make_response({'error': '401: User not logged in'}, 401)
-    
     title = request.json.get('title')
     timestamp = datetime.now()
 
@@ -132,7 +132,49 @@ class Articles(Resource):
       return make_response(article_dict_list, 200)
     return make_response({'error': '404: Articles Not Found'}, 404)
 api.add_resource(Articles, '/api/articles')
+
+class ArticlesByCategory(Resource):
+  def post(self, category_id):
+    # user must be logged in to create an article
+    if not session.get('user_id'):
+      return make_response({'error': '401: User not logged in'}, 401)
+    
+    # check that request attributes have values
+    for key, val in request.json.items():
+      if not val:
+        return make_response({'error': f'400: Article must have a(n) {key}'}, 400)
+      
+    title = request.json.get('title')
+    content = request.json.get('content')
+    timestamp = datetime.now()
+    # id from logged in user
+    user_id = session.get('user_id')
+    # ensure correct category_id value by reassigning to current view_arg
+    category_id = request.view_args.get('category_id')
+
+    if not isinstance(user_id, int):
+      return make_response({'error': '400: User ID must be an integer'}, 400)
+    if not isinstance(category_id, int):
+      return make_response({'error': '400: Category ID must be an integer'}, 400)
   
+    new_article = Article(
+      title=title,
+      content=content,
+      timestamp=timestamp,
+      user_id=user_id,
+      category_id=category_id
+    )
+
+    try:
+      db.session.add(new_article)
+      db.session.commit()
+      # get article id with response data
+      new_article_data = db.session.get(Article, new_article.id)
+      return make_response(new_article_data.to_dict(), 201)
+    except IntegrityError:
+      return make_response({'error': '422: Unprocessable Entity'}, 422)
+# articles are associated with a specific category
+api.add_resource(ArticlesByCategory, '/api/categories/<int:category_id>/articles')
 
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
