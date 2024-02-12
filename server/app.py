@@ -225,6 +225,33 @@ class Tags(Resource):
     if tags_dict_list := [t.to_dict() for t in Tag.query.all()]:
       return make_response(tags_dict_list, 200)
     return make_response({'error': '404: Tags Not Found'}, 404)
+  
+  def post(self):
+    # user must be logged in to make a Post
+    if not session.get('user_id'):
+        return make_response({'error': '401: User not logged in'}, 401)
+    
+    # check that request attributes have values
+    for key, val in request.json.items():
+      if not val:
+        return make_response({'error': f'400: Article must have a(n) {key}'}, 400)
+      
+    title = request.json.get('title')
+    timestamp = datetime.now()
+
+    new_tag = Tag(
+      title=title,
+      timestamp=timestamp
+    )
+
+    try:
+      db.session.add(new_tag)
+      db.session.commit()
+      # get tag id with response data
+      new_tag_data = db.session.get(Tag, new_tag.id)
+      return make_response(new_tag_data.to_dict(), 201)
+    except IntegrityError:
+      return make_response({'error': '422: Unprocessable Entity'}, 422)
 api.add_resource(Tags, '/api/tags')
 
 if __name__ == "__main__":
