@@ -61,5 +61,17 @@ class Users(Resource):
       return make_response({'error': '422: Unprocessable Entity'}, 422)
 api.add_resource(Users, '/api/users')
 
+
+##### Login Resources #####
+class Login(Resource):
+  def post(self):
+    if user := User.query.filter(User.username == request.json.get('username')).first():
+      if user.authenticate(request.json.get('password')):
+        session['user_id'] = user.id
+        return make_response(user.to_dict(), 200)
+      return make_response({'error': '401 Invalid Password'}, 401)
+    return make_response({'error': '401: Invalid Username'}, 401)
+api.add_resource(Login, '/login')
+
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
