@@ -204,6 +204,18 @@ class ArticleByCategory(Resource):
       except IntegrityError:
         return make_response({'error': '422: Unprocessable Entity'}, 422)
     return make_response({'error': '404: Article Not Found'}, 404)
+  
+  def delete(self, category_id, article_id):
+    # user must be logged in to delete an article
+    if not session.get('user_id'):
+      return make_response({'error': '401: User not logged in'}, 401)
+    # check that article exists
+    if article := Article.query.filter(Article.category_id == category_id, Article.id == article_id).first():
+      db.session.delete(article)
+      db.session.commit()
+      return make_response({}, 204)
+    return make_response({'error': '404: Article Not Found'}, 404)
+# articles are associated with a specific category  
 api.add_resource(ArticleByCategory, '/api/categories/<int:category_id>/articles/<int:article_id>')
 
 if __name__ == "__main__":
