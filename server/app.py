@@ -125,7 +125,7 @@ class Categories(Resource):
 api.add_resource(Categories, '/api/categories')
 
 
-##### Articles Resources #####
+##### Article Resources #####
 class Articles(Resource):
   def get(self):
     if article_dict_list := [a.to_dict() for a in Article.query.all()]:
@@ -167,7 +167,7 @@ class ArticlesByCategory(Resource):
       category_id=category_id
     )
 
-    # add tags to new_article
+    # add tags to new_article   #### MAY NEED FIXING
     new_article.tags = []
     for tag in tags:
       new_article.tags.append(tag)
