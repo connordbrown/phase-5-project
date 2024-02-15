@@ -6,6 +6,7 @@ import rootReducer from './reducer';
 import App from './App';
 import './index.css';
 
+// create Redux store
 const store = configureStore({
   reducer: rootReducer,
 })
