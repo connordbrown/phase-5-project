@@ -13,7 +13,7 @@ const usersSlice = createSlice({
         },
         addUser: (state, action) => {
             state.users.push(action.payload);
-        }
+        },
     }
 })
 
