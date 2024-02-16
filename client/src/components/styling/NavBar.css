@@ -1,0 +1,30 @@
+/* displays Navbar navlinks as row of boxes */
+.navbar > a{
+    display: inline-block;
+    box-sizing: border-box;
+    border: 1px solid black;
+    width: 100px;
+    padding: 5px;
+    margin: 6px 6px 6px 6px;
+    background: lightgoldenrodyellow;
+    text-decoration: none;
+    text-align: center;
+    font-size: min(10vw, 15px) ;
+    color: black;
+    border-radius: 5px;
+}
+
+/* NavBar background */
+.nav-container {
+    background-color: lightblue;
+    width: fit-content;
+    height: fit-content;
+    margin: 22px;
+    border-radius: 5px;
+}
+
+/* changes color of Navbar navlinks when they are clicked */
+a.active {
+    background: black;
+    color: white;
+}
