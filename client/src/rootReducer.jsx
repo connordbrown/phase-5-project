@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import usersReducer from './slices/usersSlice';
-import loggedInReducer from './slices/loggedInSlice';
+import isLoggedInReducer from './slices/isLoggedInSlice';
 import currentUserReducer from './slices/currentUserSlice';
 
 // global state container
 const rootReducer = combineReducers({
     users: usersReducer,
-    loggedIn: loggedInReducer,
+    isLoggedIn: isLoggedInReducer,
     currentUser: currentUserReducer,
 })
 
