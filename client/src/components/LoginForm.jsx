@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentUser } from '../slices/currentUserSlice';
+import { setIsLoggedIn } from '../slices/isLoggedInSlice';
 // for form creation
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -7,6 +10,10 @@ import './styling/LoginForm.css';
 
 // allows user to log in
 function LoginForm() {
+    // access Redux store
+    const currentUser = useSelector((state) => state.currentUser.value);
+    const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
+    const dispatch = useDispatch();
     // loginError state
     const [loginError, setLoginError] = useState("");
 
@@ -37,7 +44,10 @@ function LoginForm() {
             })
             .then(response => {
                 if (response.ok) {
-                    response.json().then(user => onLogin(user));
+                    response.json().then(user => {
+                        dispatch(setCurrentUser(user));
+                        dispatch(setIsLoggedIn(true));
+                    });
                 } else {
                     response.json().then(err => setLoginError(err.error));
                 }
@@ -48,6 +58,7 @@ function LoginForm() {
 
     return (
         <div>
+            {isLoggedIn ? <h2>Logged in: {currentUser.username}</h2> : <h2>Logged out</h2>}
             {loginError ? <p style={{'color' : 'red'}}>{loginError}</p> : null}
             <div className='form-container'>
                 <form id='login-form' onSubmit={formik.handleSubmit}>
