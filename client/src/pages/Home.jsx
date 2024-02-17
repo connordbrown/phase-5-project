@@ -1,6 +1,7 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Logout from '../components/Logout';
+import NavBar from '../components/NavBar';
 
 
 function Home() {
@@ -9,8 +10,11 @@ function Home() {
 
   return (
     <div>
+      <header>
+        <NavBar />
+      </header>
       {currentUser ? <h2>Welcome home, {currentUser.username}!</h2> : null}
-      <Logout />
+      <Outlet />
     </div>
   )
 }

@@ -22,9 +22,9 @@ function App() {
 
   return (
     <div>
-      <header>
+      {/* <header>
         <NavBar />
-      </header>
+      </header> */}
       <Outlet />
     </div>
   )

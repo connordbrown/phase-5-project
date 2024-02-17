@@ -6,7 +6,7 @@ import { setIsLoggedIn } from '../slices/isLoggedInSlice';
 import './styling/Logout.css';
 
 // allows user to log out
-function Logout() {
+function LogoutButton() {
     // access Redux store
     const currentUser = useSelector((state) => state.currentUser);
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
@@ -49,4 +49,4 @@ function Logout() {
     )
 }
 
-export default Logout;
+export default LogoutButton;
