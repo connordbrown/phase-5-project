@@ -35,12 +35,16 @@ class Users(Resource):
     password = request.json.get('password')
 
     # other input validations
+    if User.query.filter(User.username == username).first():
+      return make_response({'error': f'Username {username} is already taken'}, 400)
     if not isinstance(age, int):
       return make_response({'error': 'Age must be an integer'}, 400)
     if not (10 <= age <= 120):
       return make_response({'error': 'Age must be between 10 and 120 years'}, 400)
     if '@' not in email or '.' not in email:
       return make_response({'error': 'Invalid email'}, 400)
+    if User.query.filter(User.email == email).first():
+      return make_response({'error': f'Email {email} is already taken'}, 400)
 
     new_user = User(
       username=username,

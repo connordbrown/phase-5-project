@@ -58,7 +58,7 @@ function SignUpForm() {
                         setUserSuccess("201: Signup successful")
                     });
                 } else {
-                    response.json().then(err => setPostError(err.error));
+                    response.json().then(err => console.error(err.error));
                 }
             })
             resetForm();
