@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../slices/usersSlice';
 // for form creation
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -11,6 +13,9 @@ function SignUpForm() {
     const [userSuccess, setUserSuccess] = useState("");
     // userError state
     const [userError, setUserError] = useState("");
+    
+    // access Redux store
+    const dispatch = useDispatch();
 
     // success message in response disappears after time interval
     setTimeout(() => {
@@ -49,7 +54,7 @@ function SignUpForm() {
             .then(response => {
                 if (response.ok) {
                     response.json().then(newUser => {
-                        onAddUser(newUser);
+                        dispatch(addUser(newUser));
                         setUserSuccess("201: Signup successful")
                     });
                 } else {
