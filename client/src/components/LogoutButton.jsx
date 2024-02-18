@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../slices/currentUserSlice';
 import { setIsLoggedIn } from '../slices/isLoggedInSlice';
 // styling
@@ -8,8 +8,6 @@ import './styling/Logout.css';
 // allows user to log out
 function LogoutButton() {
     // access Redux store
-    const currentUser = useSelector((state) => state.currentUser);
-    const isLoggedIn = useSelector((state) => state.isLoggedIn);
     const dispatch = useDispatch();
 
     // logoutError state
