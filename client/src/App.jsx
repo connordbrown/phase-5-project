@@ -1,10 +1,11 @@
 import React from 'react';
 import { useEffect } from 'react';
-import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentUser } from './slices/currentUserSlice';
 import { setIsLoggedIn } from './slices/isLoggedInSlice';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { setUsers } from './slices/usersSlice';
+import { useNavigate, Outlet } from 'react-router-dom';
+import './App.css';
 
 function App() {
   // access Redux store
@@ -15,15 +16,26 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    fetch("/api/users")
+    .then(response => {
+      if (response.ok) {
+        response.json().then(users => dispatch(setUsers(users)));
+      } else {
+        response.json().then(err => console.error(err.error));
+      }
+    })
+  }, [])
+
+  useEffect(() => {
     fetch("/api/check_session")
     .then(response => {
       if (response.ok) {
         response.json().then(user => {
           dispatch(setCurrentUser(user));
-          dispatch(setIsLoggedIn(true))
+          dispatch(setIsLoggedIn(true));
         })
       } else {
-        response.json().then(err => console.error(err.error))
+        response.json().then(err => console.error(err.error));
       }
     })
   }, [])
@@ -32,7 +44,7 @@ function App() {
     if (isLoggedIn) {
       navigate('/');
     } else {
-      navigate('/login')
+      navigate('/login');
     }
   }, [isLoggedIn])
 

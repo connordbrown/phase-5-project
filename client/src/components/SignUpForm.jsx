@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addUser } from '../slices/usersSlice';
 // for form creation
 import { useFormik } from 'formik';
@@ -15,6 +15,7 @@ function SignUpForm() {
     const [userError, setUserError] = useState("");
     
     // access Redux store
+    const users = useSelector((state) => state.users.value)
     const dispatch = useDispatch();
 
     // success message in response disappears after time interval
@@ -28,7 +29,10 @@ function SignUpForm() {
     }, 5000);
 
     const formSchema = yup.object().shape({
-        username: yup.string().required("Must enter a username").max(15),
+        username: yup.string().required("Must enter a username").max(15)
+        .test("username-exists", "Username already exists", value => {
+            return !users.some(user => user.username === value);
+        }),
         age: yup.number().positive().integer().required("Must enter an age").typeError("Please enter an integer").max(125),
         email: yup.string().email("Invalid email").required("Must enter an email"),
         password: yup.string().required("Must enter a password")
