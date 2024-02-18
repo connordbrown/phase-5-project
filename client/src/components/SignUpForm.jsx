@@ -34,7 +34,10 @@ function SignUpForm() {
             return !users.some(user => user.username === value);
         }),
         age: yup.number().positive().integer().required("Must enter an age").typeError("Please enter an integer").max(125),
-        email: yup.string().email("Invalid email").required("Must enter an email"),
+        email: yup.string().email("Invalid email").required("Must enter an email")
+        .test("email-exists", "Email already exists", value => {
+            return !users.some(user => user.email === value);
+        }),
         password: yup.string().required("Must enter a password")
     })
 

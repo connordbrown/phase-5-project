@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { setUsers } from '../slices/usersSlice';
 import { setCurrentUser } from '../slices/currentUserSlice';
 import { setIsLoggedIn } from '../slices/isLoggedInSlice';
 // for form creation
@@ -13,7 +14,9 @@ function LoginForm() {
     // access Redux store
     const currentUser = useSelector((state) => state.currentUser.value);
     const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
+    const users = useSelector((state) => state.users.value);
     const dispatch = useDispatch();
+    
     // loginError state
     const [loginError, setLoginError] = useState("");
 
@@ -23,7 +26,10 @@ function LoginForm() {
     }, 4000);
 
     const formSchema = yup.object().shape({
-        username: yup.string().required("Must enter a username").max(15),
+        username: yup.string().required("Must enter a username").max(15)
+        .test("username-exists", "Invalid username", value => {
+            return users.some(user => user.username === value);
+        }),
         password: yup.string().required("Must enter a password")
     })
 
