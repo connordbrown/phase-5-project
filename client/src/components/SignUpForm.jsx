@@ -62,6 +62,7 @@ function SignUpForm() {
 
     return (
         <div>
+            <h2>Sign In</h2>
             {userSuccess ? <p style={{'color' : 'green'}}>{userSuccess}</p> : null}
             {userError ? <p style={{'color' : 'red'}}>{userError}</p> : null}
             <div className='form-container'>
