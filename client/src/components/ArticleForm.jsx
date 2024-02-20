@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import './styling/ArticleForm.css';
 
 // allows logged in user to create a post
-function PostForm( { onPost }) {
+function ArticleForm( { onPost }) {
     // postError state
     const [postError, setPostError] = useState("");
 
@@ -25,10 +25,11 @@ function PostForm( { onPost }) {
         initialValues: {
             title: "",
             content: "",
+            tags: [],
         },
         validationSchema: formSchema,
         onSubmit: (values, { resetForm }) => {
-            fetch("/api/posts", {
+            fetch("/api/categories/<int:category_id>/articles", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,12 +48,21 @@ function PostForm( { onPost }) {
         }   
     })
 
+    // title = request.json.get('title')
+    // content = request.json.get('content')
+    // # id from logged in user
+    // user_id = session.get('user_id')
+    // # ensure correct category_id value by reassigning to current view_arg
+    // category_id = request.view_args.get('category_id')
+    // # list of tags
+    // tags = session.get('tags')
+
     return (
         <div>
             {postError ? <p style={{'color' : 'red'}}>{postError}</p> : null}
             <div className='form-container'>
                 <form id='article-form' onSubmit={formik.handleSubmit}>
-                <label htmlFor='title'>Create a Post:</label>
+                <label htmlFor='title'>Create an Article:</label>
                     <div className='form-inputs'>
                         <br />
                         <input
@@ -88,4 +98,4 @@ function PostForm( { onPost }) {
     )
 }
 
-export default PostForm;
+export default ArticleForm;

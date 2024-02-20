@@ -4,6 +4,7 @@ import isLoggedInReducer from './slices/isLoggedInSlice';
 import currentUserReducer from './slices/currentUserSlice';
 import articlesReducer from './slices/articlesSlice';
 import articlesLoadedReducer from './slices/articlesLoadedSlice';
+import categoriesReducer from './slices/categoriesSlice';
 
 // global state container
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     currentUser: currentUserReducer,
     articles: articlesReducer,
     articlesLoaded: articlesLoadedReducer,
+    categories: categoriesReducer,
 })
 
 export default rootReducer;
