@@ -11,6 +11,7 @@ import NavBar from './components/NavBar';
 function App() {
   // access Redux store
   const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
+  const currentUser = useSelector((state) => state.currentUser.value);
   const dispatch = useDispatch();
 
   // enable programmatic navigation
@@ -54,6 +55,7 @@ function App() {
       <header>
         {isLoggedIn ? <NavBar /> : null}
       </header>
+        {isLoggedIn ? <h2>Welcome, {currentUser.username}!</h2> : null}
       <Outlet />
     </div>
   )
