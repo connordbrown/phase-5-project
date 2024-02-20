@@ -10,15 +10,15 @@ function Home() {
     <div>
       <h2>Articles</h2>
       <ul>
-        {articles.map(article => {
+        {articles.map(article => (
           <Link to={`/articles/${article.id}`} key={article.id} className='article-link'>
-            <li className='article'>
+            <li className='article' key={article.id}>
               <span>
                 {article.title} - <em>{article.user['username']}</em>
               </span>
             </li>
           </Link>
-        })} 
+        ))} 
       </ul>
     </div>
   )
