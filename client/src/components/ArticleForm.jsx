@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 // for form creation
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,6 +9,9 @@ import './styling/ArticleForm.css';
 
 // allows logged in user to create a post
 function ArticleForm( { onPost }) {
+    // access Redux store
+    const categories = useSelector((state) => state.categories.value);
+    
     // postError state
     const [postError, setPostError] = useState("");
 
@@ -18,13 +22,15 @@ function ArticleForm( { onPost }) {
 
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
-        content: yup.string().required("Must enter content")
+        content: yup.string().required("Must enter content"),
+        category: yup.string().required("Must select category"),
     })
 
     const formik = useFormik({
         initialValues: {
             title: "",
             content: "",
+            category: "",
             tags: [],
         },
         validationSchema: formSchema,
@@ -88,6 +94,23 @@ function ArticleForm( { onPost }) {
                             autoComplete='off'
                         />
                         <p>{formik.errors.content}</p>
+                    </div>
+                    <div className='form-inputs'>
+                        <br />
+                        <select
+                            id='category'
+                            name='category'
+                            value={formik.values.category}
+                            onChange={formik.handleChange}
+                        >
+                            <option value=''>Select a category</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.id}>
+                                    {category.title}
+                                </option>
+                            ))}
+                        </select>
+                        <p>{formik.errors.category}</p>
                     </div>
                     <div id='button'>
                         <button type='submit'>Submit</button>

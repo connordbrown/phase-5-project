@@ -15,7 +15,7 @@
     display: flex;
 }
 
-.form-inputs input {
+.form-inputs input, select {
     margin-right: 10px;
     margin-bottom: 5px;
     margin-top: 5px;
