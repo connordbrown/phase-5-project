@@ -79,6 +79,17 @@ function App() {
     })
   })
 
+  useEffect(() => {
+    fetch("/api/tags")
+    .then(response => {
+      if (response.ok) {
+        response.json().then(tags => dispatch(setTags(tags)));
+      } else {
+        response.json().then(err => console.error(err.error));
+      }
+    })
+  })
+
   return (
     <div className='app'>
       <header>
