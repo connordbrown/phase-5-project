@@ -22,3 +22,8 @@
 .display-article {
     pointer-events: none;
 }
+
+.tags {
+    display: flex;
+    justify-content: space-around;
+}
