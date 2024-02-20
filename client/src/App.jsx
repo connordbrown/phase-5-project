@@ -6,6 +6,7 @@ import { setIsLoggedIn } from './slices/isLoggedInSlice';
 import { setUsers } from './slices/usersSlice';
 import { useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
+import NavBar from './components/NavBar';
 
 function App() {
   // access Redux store
@@ -50,6 +51,9 @@ function App() {
 
   return (
     <div className='app'>
+      <header>
+        {isLoggedIn ? <NavBar /> : null}
+      </header>
       <Outlet />
     </div>
   )
