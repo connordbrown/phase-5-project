@@ -16,6 +16,7 @@ function ArticleList() {
               <span>
                 {article.title} - <em>{article.user['username']}</em>
               </span>
+              <p>{article.content.slice(0, 100) + "..."}</p>
             </li>
           </Link>
         ))} 

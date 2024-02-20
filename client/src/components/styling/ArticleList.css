@@ -1,4 +1,4 @@
-.article:hover span {
+.article:hover {
     color: yellow;
     cursor: pointer;
 }
