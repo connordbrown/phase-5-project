@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import UserProfile from './pages/UserProfile';
 import ArticleInfo from './pages/ArticleInfo';
+import WriteArticle from './pages/WriteArticle';
 
 const routes = [
     {
@@ -29,6 +30,10 @@ const routes = [
             {
                 path: "/articles/:id",
                 element: <ArticleInfo />
+            },
+            {
+                path: "/write",
+                element: <WriteArticle />
             },
             {
                 path: "/profile/:id",

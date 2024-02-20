@@ -11,6 +11,7 @@ function NavBar() {
             <nav className='navbar'>
                 <NavLink to='/'>Home</NavLink>
                 <NavLink to='/about'>About</NavLink>
+                <NavLink to='/write'>Write</NavLink>
                 <NavLink to='/logout'>Logout</NavLink>
             </nav>
         </div>
