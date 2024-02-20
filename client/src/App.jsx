@@ -5,6 +5,7 @@ import { setUsers } from './slices/usersSlice';
 import { setCurrentUser } from './slices/currentUserSlice';
 import { setIsLoggedIn } from './slices/isLoggedInSlice';
 import { setArticles } from './slices/articlesSlice';
+import { setArticlesLoaded } from './slices/articlesLoadedSlice';
 import { useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/NavBar';
@@ -55,7 +56,10 @@ function App() {
     fetch("/api/articles")
     .then(response => {
       if (response.ok) {
-        response.json().then(articles => dispatch(setArticles(articles)));
+        response.json().then(articles => {
+          dispatch(setArticles(articles));
+          dispatch(setArticlesLoaded(true));
+        });
       } else {
         response.json().then(err => console.err(err.error));
       }

@@ -1,8 +1,10 @@
 import React from "react";
-import { useParams } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
 
 function ArticleInfo() {
+  // access Redux store
+  const articlesLoaded = useSelector((state) => state.articlesLoaded.value);
 
   // get specific endpoint - useParams() returns string
   const params = useParams();
@@ -13,6 +15,10 @@ function ArticleInfo() {
   const displayArticle = articles.find(article => {
     return article.id === parseInt(params.id);
   });
+
+  if (!articlesLoaded) {
+    return <h1>Loading articles...</h1>;
+  }
 
   return (
     <div>
