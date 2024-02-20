@@ -1,11 +1,12 @@
 import React from 'react';
 import App from './App';
+import ErrorPage from './pages/ErrorPage';
 import Home from './pages/Home';
 import About from './pages/About';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import UserProfile from './pages/UserProfile';
-import ErrorPage from './pages/ErrorPage';
+import ArticleInfo from './pages/ArticleInfo';
 
 const routes = [
     {
@@ -24,6 +25,10 @@ const routes = [
             {
                 path: "/logout",
                 element: <Logout />
+            },
+            {
+                path: "/articles/:id",
+                element: <ArticleInfo />
             },
             {
                 path: "/profile/:id",
