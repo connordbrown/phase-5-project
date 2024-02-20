@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
+import '../components/styling/ArticleList.css';
 
 function ArticleInfo() {
   // access Redux store
@@ -14,16 +15,15 @@ function ArticleInfo() {
     return article.id === parseInt(params.id);
   });
 
-  
   if (!articlesLoaded) {
     return <h1>Loading articles...</h1>;
   }
 
   return (
-    <div>
-        <h2>{displayArticle.title}</h2>
-        <span>by {displayArticle.user.username} - {displayArticle.timestamp}</span>
-        <p>{displayArticle.content}</p>
+    <div className='display-article'>
+      <h2>{displayArticle.title}</h2>
+      <span>by {displayArticle.user.username} - {displayArticle.timestamp}</span>
+      <p>{displayArticle.content}</p>
     </div>
   )
 }

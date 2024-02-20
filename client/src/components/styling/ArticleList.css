@@ -16,5 +16,9 @@
 }
 
 .article-link {
-    text-decoration: None;
+    text-decoration: none;
+}
+
+.display-article {
+    pointer-events: none;
 }
