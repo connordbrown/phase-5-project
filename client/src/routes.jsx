@@ -16,20 +16,18 @@ const routes = [
             {
                 path: "/",
                 element: <Home />,
-                children: [
-                    {
-                        path: "/about",
-                        element: <About />
-                    },
-                    {
-                        path: "/logout",
-                        element: <Logout />
-                    },
-                    {
-                        path: "/profile/:id",
-                        element: <UserProfile />
-                    },
-                ]
+            },    
+            {
+                path: "/about",
+                element: <About />
+            },
+            {
+                path: "/logout",
+                element: <Logout />
+            },
+            {
+                path: "/profile/:id",
+                element: <UserProfile />
             },
             {
                 path: "/login",
