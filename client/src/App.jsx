@@ -1,9 +1,10 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { setUsers } from './slices/usersSlice';
 import { setCurrentUser } from './slices/currentUserSlice';
 import { setIsLoggedIn } from './slices/isLoggedInSlice';
-import { setUsers } from './slices/usersSlice';
+import { setArticles } from './slices/articlesSlice';
 import { useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/NavBar';
@@ -49,6 +50,17 @@ function App() {
       navigate('/login');
     }
   }, [isLoggedIn])
+
+  useEffect(() => {
+    fetch("/api/articles")
+    .then(response => {
+      if (response.ok) {
+        response.json().then(articles => dispatch(setArticles(articles)));
+      } else {
+        response.json().then(err => console.err(err.error));
+      }
+    })
+  }, [])
 
   return (
     <div className='app'>

@@ -11,6 +11,9 @@ const articlesSlice = createSlice({
         setArticles: (state, action) => {
             state.value = action.payload;
         },
+        addArticle: (state, action) => {
+            state.value.push(action.payload);
+        },
     }
 })
 
