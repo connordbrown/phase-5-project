@@ -6,6 +6,8 @@ import { setCurrentUser } from './slices/currentUserSlice';
 import { setIsLoggedIn } from './slices/isLoggedInSlice';
 import { setArticles } from './slices/articlesSlice';
 import { setArticlesLoaded } from './slices/articlesLoadedSlice';
+import { setCategories } from './slices/categoriesSlice';
+import { setTags } from './slices/tagsSlice';
 import { useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/NavBar';
@@ -65,6 +67,17 @@ function App() {
       }
     })
   }, [])
+
+  useEffect(() => {
+    fetch("/api/categories")
+    .then(response => {
+      if (response.ok) {
+        response.json().then(categories => dispatch(setCategories(categories)));
+      } else {
+        response.json().then(err => console.error(err.error));
+      }
+    })
+  })
 
   return (
     <div className='app'>
