@@ -9,10 +9,10 @@ import * as yup from 'yup';
 import './styling/ArticleForm.css';
 
 // allows logged in user to create a post
-function ArticleForm( { onPost }) {
+function ArticleForm() {
     // access Redux store
     const categories = useSelector((state) => state.categories.value);
-    const tagOptions = useSelector((state) => state.tags.value);
+    const allTags = useSelector((state) => state.tags.value);
     
     // articleError state
     const [articleError, setArticleError] = useState("");
@@ -26,7 +26,6 @@ function ArticleForm( { onPost }) {
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
         category: yup.string().required("Must select category"),
-        tags: yup.array().of(yup.string()),
     })
 
     const formik = useFormik({
@@ -39,24 +38,32 @@ function ArticleForm( { onPost }) {
         },
         validationSchema: formSchema,
         onSubmit: (values, { resetForm }) => {
-            fetch("/api/categories/<int:category_id>/articles", {
+            fetch(`/api/categories/${formik.values.category}/articles`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify(values, null, 2)
+                body: JSON.stringify({
+                    title: values.title,
+                    content: values.content,
+                    category_id: values.category,
+                    tags: values.tags
+                }, null, 2)
             })
             .then(response => {
                 if (response.ok) {
                     response.json().then(article => useDispatch(addArticle(article)));
                 } else {
-                    response.json().then(err => setArticleError(err.error));
+                    response.json().then(err => console.log(err.error));
                 }
             })
             resetForm();    
         }   
     })
+
+    const tagIds = formik.values.tags.map(tag => parseInt(tag));
+    const selectedTags = allTags.filter(tag => tagIds.includes(tag.id));
 
     return (
         <div>
@@ -92,39 +99,26 @@ function ArticleForm( { onPost }) {
                     </div>
                     <div className='form-inputs'>
                         <br />
-                        <select
-                            id='category'
-                            name='category'
-                            value={formik.values.category}
-                            onChange={formik.handleChange}
-                        >
+                        <select id='category' name='category' value={formik.values.category} onChange={formik.handleChange}>
                             <option value=''>Select a category</option>
-                            {categories.map(category => (
-                                <option key={category.id} value={category.id}>
-                                    {category.title}
-                                </option>
-                            ))}
+                            {categories.map(category => <option key={category.id} value={category.id}>{category.title}</option>)}
                         </select>
                         <p>{formik.errors.category}</p>
                     </div>
                     <div className='form-inputs'>
-                    <input
-                        id='tag'
-                        name='tag'
-                        placeholder='Add tags...'
-                        onChange={formik.handleChange}
-                        value={formik.values.tag}
-                        autoComplete='off'
-                        list='tagOptions'
-                    />
+                        <select id='tag' name='tag' value={formik.values.tag} onChange={formik.handleChange}>
+                            <option value=''>Select a tag</option>
+                            {allTags.map(tag => <option key={tag.id} value={tag.id}>{tag.title}</option>)}
+                        </select>
                         <button type='button' onClick={() => {
-                            formik.values.tags.push(formik.values.tag);
-                            console.log(formik.values.tags);}}>Add</button>
-                        <datalist id='tagOptions'>
-                        {tagOptions.map(tag => (
-                            <option key={tag.id} value={tag.title} />
-                        ))}
-                        </datalist>
+                            const newTags = [...formik.values.tags, formik.values.tag];
+                            formik.setFieldValue('tags', newTags);
+                            formik.setFieldValue('tag', ""); }}>Add</button>
+                    </div>
+                    <div id='tag-list'>
+                        <ul>
+                            {selectedTags ? selectedTags.map(tag => <li key={tag.id}>{tag.title}</li>) : null}
+                        </ul>
                     </div>
                     <div id='button'>
                         <button type='submit'>Submit</button>
