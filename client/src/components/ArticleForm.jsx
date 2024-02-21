@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addArticle } from '../slices/articlesSlice';
 // for form creation
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -11,19 +12,21 @@ import './styling/ArticleForm.css';
 function ArticleForm( { onPost }) {
     // access Redux store
     const categories = useSelector((state) => state.categories.value);
+    const tagOptions = useSelector((state) => state.tags.value);
     
-    // postError state
-    const [postError, setPostError] = useState("");
+    // articleError state
+    const [articleError, setArticleError] = useState("");
 
     // error message in response disappears after time interval
     setTimeout(() => {
-        setPostError("");
+        setArticleError("");
     }, 5000);
 
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
         category: yup.string().required("Must select category"),
+        tags: yup.array().of(yup.string()),
     })
 
     const formik = useFormik({
@@ -31,6 +34,7 @@ function ArticleForm( { onPost }) {
             title: "",
             content: "",
             category: "",
+            tag: "",
             tags: [],
         },
         validationSchema: formSchema,
@@ -45,27 +49,18 @@ function ArticleForm( { onPost }) {
             })
             .then(response => {
                 if (response.ok) {
-                    response.json().then(post => onPost(post));
+                    response.json().then(article => useDispatch(addArticle(article)));
                 } else {
-                    response.json().then(err => setPostError(err.error));
+                    response.json().then(err => setArticleError(err.error));
                 }
             })
             resetForm();    
         }   
     })
 
-    // title = request.json.get('title')
-    // content = request.json.get('content')
-    // # id from logged in user
-    // user_id = session.get('user_id')
-    // # ensure correct category_id value by reassigning to current view_arg
-    // category_id = request.view_args.get('category_id')
-    // # list of tags
-    // tags = session.get('tags')
-
     return (
         <div>
-            {postError ? <p style={{'color' : 'red'}}>{postError}</p> : null}
+            {articleError ? <p style={{'color' : 'red'}}>{articleError}</p> : null}
             <div className='form-container'>
                 <form id='article-form' onSubmit={formik.handleSubmit}>
                 <label htmlFor='title'>Create an Article:</label>
@@ -111,6 +106,25 @@ function ArticleForm( { onPost }) {
                             ))}
                         </select>
                         <p>{formik.errors.category}</p>
+                    </div>
+                    <div className='form-inputs'>
+                    <input
+                        id='tag'
+                        name='tag'
+                        placeholder='Add tags...'
+                        onChange={formik.handleChange}
+                        value={formik.values.tag}
+                        autoComplete='off'
+                        list='tagOptions'
+                    />
+                        <button type='button' onClick={() => {
+                            formik.values.tags.push(formik.values.tag);
+                            console.log(formik.values.tags);}}>Add</button>
+                        <datalist id='tagOptions'>
+                        {tagOptions.map(tag => (
+                            <option key={tag.id} value={tag.title} />
+                        ))}
+                        </datalist>
                     </div>
                     <div id='button'>
                         <button type='submit'>Submit</button>

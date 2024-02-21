@@ -77,7 +77,7 @@ function App() {
         response.json().then(err => console.error(err.error));
       }
     })
-  })
+  }, [])
 
   useEffect(() => {
     fetch("/api/tags")
@@ -88,7 +88,7 @@ function App() {
         response.json().then(err => console.error(err.error));
       }
     })
-  })
+  }, [])
 
   return (
     <div className='app'>

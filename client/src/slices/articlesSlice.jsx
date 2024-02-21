@@ -17,5 +17,5 @@ const articlesSlice = createSlice({
     }
 })
 
-export const { setArticles } = articlesSlice.actions;
+export const { setArticles, addArticle } = articlesSlice.actions;
 export default articlesSlice.reducer;
