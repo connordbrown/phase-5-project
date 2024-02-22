@@ -153,10 +153,10 @@ class ArticlesByCategory(Resource):
     timestamp = datetime.now()
     # id from logged in user
     user_id = session.get('user_id')
-    # ensure correct category_id value by reassigning to current view_arg
-    category_id = request.view_args.get('category_id')
+    # use view args?????
+    category_id = int(request.json.get('category_id'))
     # list of tags
-    tags = session.get('tags')
+    tags = request.json.get('tags')
 
     if not isinstance(user_id, int):
       return make_response({'error': '400: User ID must be an integer'}, 400)
@@ -172,9 +172,13 @@ class ArticlesByCategory(Resource):
     )
 
     # add tags to new_article   #### MAY NEED FIXING
-    new_article.tags = []
-    for tag in tags:
-      new_article.tags.append(tag)
+    new_article_tags = []
+    for tag_id in tags:
+      tag_obj = Tag.query.filter(Tag.id == int(tag_id)).first()
+      new_article_tags.append(tag_obj)
+    new_article.tags = new_article_tags
+
+    #breakpoint()
 
     try:
       db.session.add(new_article)

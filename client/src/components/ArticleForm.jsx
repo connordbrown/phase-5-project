@@ -13,19 +13,22 @@ function ArticleForm() {
     // access Redux store
     const categories = useSelector((state) => state.categories.value);
     const allTags = useSelector((state) => state.tags.value);
+    const dispatch = useDispatch();
     
     // articleError state
     const [articleError, setArticleError] = useState("");
 
     // error message in response disappears after time interval
-    setTimeout(() => {
-        setArticleError("");
-    }, 5000);
+    // setTimeout(() => {
+    //     setArticleError("");
+    // }, 5000);
 
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
         category: yup.string().required("Must select category"),
+        //tag: yup.string().required("Must add tag"),
+        //tags: yup.array().of(yup.string()).required("Must select tags"),
     })
 
     const formik = useFormik({
@@ -53,15 +56,20 @@ function ArticleForm() {
             })
             .then(response => {
                 if (response.ok) {
-                    response.json().then(article => useDispatch(addArticle(article)));
+                    response.json().then(article => dispatch(addArticle(article)));
+                    setArticleError("");
                 } else {
-                    response.json().then(err => console.log(err.error));
+                    response.json().then(err => {
+                        console.log(err.error);
+                        setArticleError(err.error);
+                    });
                 }
             })
             resetForm();    
         }   
     })
 
+    // for display on form
     const tagIds = formik.values.tags.map(tag => parseInt(tag));
     const selectedTags = allTags.filter(tag => tagIds.includes(tag.id));
 
@@ -114,6 +122,7 @@ function ArticleForm() {
                             const newTags = [...formik.values.tags, formik.values.tag];
                             formik.setFieldValue('tags', newTags);
                             formik.setFieldValue('tag', ""); }}>Add</button>
+                        <p>{formik.errors.tag}</p>           
                     </div>
                     <div id='tag-list'>
                         <ul>
