@@ -4,6 +4,7 @@ import isLoggedInReducer from './slices/isLoggedInSlice';
 import currentUserReducer from './slices/currentUserSlice';
 import articlesReducer from './slices/articlesSlice';
 import articlesLoadedReducer from './slices/articlesLoadedSlice';
+import articleSelectReducer from './slices/articleSelectSlice';
 import categoriesReducer from './slices/categoriesSlice';
 import tagsReducer from './slices/tagsSlice';
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     currentUser: currentUserReducer,
     articles: articlesReducer,
     articlesLoaded: articlesLoadedReducer,
+    selectedArticle: articleSelectReducer,
     categories: categoriesReducer,
     tags: tagsReducer,
 })

@@ -8,7 +8,7 @@ import * as yup from 'yup';
 // styling
 import './styling/ArticleForm.css';
 
-// allows logged in user to create a post
+// allows logged in user to create an article
 function ArticleForm() {
     // access Redux store
     const categories = useSelector((state) => state.categories.value);

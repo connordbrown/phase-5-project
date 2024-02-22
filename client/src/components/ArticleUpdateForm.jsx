@@ -1,22 +1,22 @@
 
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addArticle } from '../slices/articlesSlice';
+import { updateArticle } from '../slices/articlesSlice';
 // for form creation
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 // styling
 import './styling/ArticleUpdateForm.css';
 
-// allows logged in user to create a post
-function ArticleUpdateForm() {
+// allows logged in user to update an article
+function ArticleUpdateForm( {selectedArticle} ) {
     // access Redux store
     const categories = useSelector((state) => state.categories.value);
     const allTags = useSelector((state) => state.tags.value);
     const dispatch = useDispatch();
     
     // articleError state
-    const [articleError, setArticleError] = useState("");
+    const [updateError, setUpdateError] = useState("");
 
     // error message in response disappears after time interval
     // setTimeout(() => {
@@ -33,16 +33,16 @@ function ArticleUpdateForm() {
 
     const formik = useFormik({
         initialValues: {
-            title: "",
-            content: "",
-            category: "",
-            tag: "",
-            tags: [],
+            title: selectedArticle.title,
+            content: selectedArticle.content,
+            category: selectedArticle.category,
+            tags: selectedArticle.tags,
         },
+        enableReinitialize: true, // clear form when props change
         validationSchema: formSchema,
         onSubmit: (values, { resetForm }) => {
-            fetch(`/api/categories/${formik.values.category}/articles`, {
-                method: "POST",
+            fetch(`/api/categories/${selectedArticle.category}/article/${selectedArticle.id}`, {
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
@@ -56,12 +56,12 @@ function ArticleUpdateForm() {
             })
             .then(response => {
                 if (response.ok) {
-                    response.json().then(article => dispatch(addArticle(article)));
-                    setArticleError("");
+                    response.json().then(article => dispatch(updateArticle(article)));
+                    setUpdateError("");
                 } else {
                     response.json().then(err => {
                         console.log(err.error);
-                        setArticleError(err.error);
+                        setUpdateError(err.error);
                     });
                 }
             })
@@ -75,7 +75,7 @@ function ArticleUpdateForm() {
 
     return (
         <div>
-            {articleError ? <p style={{'color' : 'red'}}>{articleError}</p> : null}
+            {updateError ? <p style={{'color' : 'red'}}>{updateError}</p> : null}
             <div className='form-container'>
                 <form id='article-form' onSubmit={formik.handleSubmit}>
                 <label htmlFor='title'>Create an Article:</label>
