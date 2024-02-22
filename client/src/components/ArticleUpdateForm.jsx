@@ -9,12 +9,12 @@ import * as yup from 'yup';
 import './styling/ArticleUpdateForm.css';
 
 // allows logged in user to update an article
-function ArticleUpdateForm( {selectedArticle} ) {
+function ArticleUpdateForm() {
     // access Redux store
     const categories = useSelector((state) => state.categories.value);
     const allTags = useSelector((state) => state.tags.value);
+    const selectedArticle = useSelector((state) => state.selectedArticle.value);
     const dispatch = useDispatch();
-    
     // articleError state
     const [updateError, setUpdateError] = useState("");
 
@@ -35,8 +35,9 @@ function ArticleUpdateForm( {selectedArticle} ) {
         initialValues: {
             title: selectedArticle.title,
             content: selectedArticle.content,
-            category: selectedArticle.category,
-            tags: selectedArticle.tags,
+            category: "",
+            tag: "",
+            tags: [],
         },
         enableReinitialize: true, // clear form when props change
         validationSchema: formSchema,
@@ -68,7 +69,7 @@ function ArticleUpdateForm( {selectedArticle} ) {
             resetForm();    
         }   
     })
-
+    
     // for display on form
     const tagIds = formik.values.tags.map(tag => parseInt(tag));
     const selectedTags = allTags.filter(tag => tagIds.includes(tag.id));
@@ -78,7 +79,7 @@ function ArticleUpdateForm( {selectedArticle} ) {
             {updateError ? <p style={{'color' : 'red'}}>{updateError}</p> : null}
             <div className='form-container'>
                 <form id='article-form' onSubmit={formik.handleSubmit}>
-                <label htmlFor='title'>Create an Article:</label>
+                <label htmlFor='title'>Update an Article:</label>
                     <div className='form-inputs'>
                         <br />
                         <input
@@ -126,7 +127,7 @@ function ArticleUpdateForm( {selectedArticle} ) {
                     </div>
                     <div id='tag-list'>
                         <ul>
-                            {selectedTags ? selectedTags.map(tag => <li key={tag.id}>{tag.title}</li>) : null}
+                            {/* {selectedTags ? selectedTags.map(tag => <li key={tag.id}>{tag.title}</li>) : null} */}
                         </ul>
                     </div>
                     <div id='button'>
