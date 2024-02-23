@@ -178,7 +178,6 @@ class ArticlesByCategory(Resource):
       new_article_tags.append(tag_obj)
     new_article.tags = new_article_tags
 
-    #breakpoint()
 
     try:
       db.session.add(new_article)
@@ -191,8 +190,8 @@ class ArticlesByCategory(Resource):
 # articles are associated with a specific category
 api.add_resource(ArticlesByCategory, '/api/categories/<int:category_id>/articles')
 
-class ArticleByCategory(Resource):
-  def patch(self, category_id, article_id):
+class ArticleByID(Resource):
+  def patch(self, article_id):
     # user must be logged in to edit an article
     if not session.get('user_id'):
       return make_response({'error': '401: User not logged in'}, 401)
@@ -203,14 +202,12 @@ class ArticleByCategory(Resource):
         return make_response({'error': f'400: Article must have a(n) {key}'}, 400)
       
     # check that article exists
-    if article := Article.query.filter(Article.category_id == category_id, Article.id == article_id).first():
+    if article := Article.query.filter(Article.id == article_id).first():
+    
       # update article attributes
       for attr in request.json:
         setattr(article, attr, request.json.get(attr))
-      # ensure correct category_id value by reassigning to current view_arg
-      category_id = request.view_args.get('category_id')
-      article.category_id = category_id
-      # assign new timestamp for edited article
+
       article.timestamp = datetime.now()
       try:
         db.session.add(article)
@@ -220,18 +217,18 @@ class ArticleByCategory(Resource):
         return make_response({'error': '422: Unprocessable Entity'}, 422)
     return make_response({'error': '404: Article Not Found'}, 404)
   
-  def delete(self, category_id, article_id):
+  def delete(self, article_id):
     # user must be logged in to delete an article
     if not session.get('user_id'):
       return make_response({'error': '401: User not logged in'}, 401)
     # check that article exists
-    if article := Article.query.filter(Article.category_id == category_id, Article.id == article_id).first():
+    if article := Article.query.filter(Article.id == article_id).first():
       db.session.delete(article)
       db.session.commit()
       return make_response({}, 204)
     return make_response({'error': '404: Article Not Found'}, 404)
 # articles are associated with a specific category  
-api.add_resource(ArticleByCategory, '/api/categories/<int:category_id>/articles/<int:article_id>')
+api.add_resource(ArticleByID, '/api/articles/<int:article_id>')
 
 
 ##### Tag Resources #####

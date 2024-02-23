@@ -11,13 +11,10 @@ import './styling/ArticleUpdateForm.css';
 // allows logged in user to update an article
 function ArticleUpdateForm() {
     // access Redux store
-    const categories = useSelector((state) => state.categories.value);
-    const allTags = useSelector((state) => state.tags.value);
     const selectedArticle = useSelector((state) => state.selectedArticle.value);
     const dispatch = useDispatch();
     // articleError state
     const [updateError, setUpdateError] = useState("");
-
     // error message in response disappears after time interval
     // setTimeout(() => {
     //     setArticleError("");
@@ -26,23 +23,17 @@ function ArticleUpdateForm() {
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
-        category: yup.string().required("Must select category"),
-        //tag: yup.string().required("Must add tag"),
-        //tags: yup.array().of(yup.string()).required("Must select tags"),
     })
 
     const formik = useFormik({
         initialValues: {
             title: selectedArticle.title,
             content: selectedArticle.content,
-            category: "",
-            tag: "",
-            tags: [],
         },
         enableReinitialize: true, // clear form when props change
         validationSchema: formSchema,
         onSubmit: (values, { resetForm }) => {
-            fetch(`/api/categories/${selectedArticle.category}/article/${selectedArticle.id}`, {
+            fetch(`/api/articles/${selectedArticle.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,8 +42,6 @@ function ArticleUpdateForm() {
                 body: JSON.stringify({
                     title: values.title,
                     content: values.content,
-                    category_id: values.category,
-                    tags: values.tags
                 }, null, 2)
             })
             .then(response => {
@@ -69,10 +58,6 @@ function ArticleUpdateForm() {
             resetForm();    
         }   
     })
-    
-    // for display on form
-    const tagIds = formik.values.tags.map(tag => parseInt(tag));
-    const selectedTags = allTags.filter(tag => tagIds.includes(tag.id));
 
     return (
         <div>
@@ -105,30 +90,6 @@ function ArticleUpdateForm() {
                             autoComplete='off'
                         />
                         <p>{formik.errors.content}</p>
-                    </div>
-                    <div className='form-inputs'>
-                        <br />
-                        <select id='category' name='category' value={formik.values.category} onChange={formik.handleChange}>
-                            <option value=''>Select a category</option>
-                            {categories.map(category => <option key={category.id} value={category.id}>{category.title}</option>)}
-                        </select>
-                        <p>{formik.errors.category}</p>
-                    </div>
-                    <div className='form-inputs'>
-                        <select id='tag' name='tag' value={formik.values.tag} onChange={formik.handleChange}>
-                            <option value=''>Select a tag</option>
-                            {allTags.map(tag => <option key={tag.id} value={tag.id}>{tag.title}</option>)}
-                        </select>
-                        <button type='button' onClick={() => {
-                            const newTags = [...formik.values.tags, formik.values.tag];
-                            formik.setFieldValue('tags', newTags);
-                            formik.setFieldValue('tag', ""); }}>Add</button>
-                        <p>{formik.errors.tag}</p>           
-                    </div>
-                    <div id='tag-list'>
-                        <ul>
-                            {/* {selectedTags ? selectedTags.map(tag => <li key={tag.id}>{tag.title}</li>) : null} */}
-                        </ul>
                     </div>
                     <div id='button'>
                         <button type='submit'>Submit</button>

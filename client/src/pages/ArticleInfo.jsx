@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { setSelectedArticle } from "../slices/articleSelectSlice";
@@ -21,7 +21,9 @@ function ArticleInfo() {
     return article.id === parseInt(params.id);
   });
 
-  dispatch(setSelectedArticle(displayArticle));
+  useEffect(() => {
+    dispatch(setSelectedArticle(displayArticle));
+  }, [])
 
   if (!articlesLoaded) {
     return <h1>Loading articles...</h1>;
