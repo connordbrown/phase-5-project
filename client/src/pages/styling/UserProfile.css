@@ -1,0 +1,20 @@
+.article:hover {
+    color: yellow;
+    cursor: pointer;
+}
+
+.article {
+    margin-left: 20px;
+}
+
+.article-link:link {
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.article-link:visited {
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.article-link {
+    text-decoration: none;
+}
