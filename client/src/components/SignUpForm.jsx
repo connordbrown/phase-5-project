@@ -18,16 +18,6 @@ function SignUpForm() {
     const users = useSelector((state) => state.users.value)
     const dispatch = useDispatch();
 
-    // success message in response disappears after time interval
-    setTimeout(() => {
-        setUserSuccess("");
-    }, 5000);
-
-    // error message in response disappears after time interval
-    setTimeout(() => {
-        setUserError("");
-    }, 5000);
-
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username").max(15)
         .test("username-exists", "Username already exists", value => {
@@ -62,7 +52,7 @@ function SignUpForm() {
                 if (response.ok) {
                     response.json().then(newUser => {
                         dispatch(addUser(newUser));
-                        setUserSuccess("201: Signup successful");
+                        setUserSuccess("Signup successful");
                         setUserError("");
                     });
                 } else {

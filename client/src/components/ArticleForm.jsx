@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { addArticle } from '../slices/articlesSlice';
 // for form creation
 import { useFormik } from 'formik';
@@ -14,6 +15,9 @@ function ArticleForm() {
     const categories = useSelector((state) => state.categories.value);
     const allTags = useSelector((state) => state.tags.value);
     const dispatch = useDispatch();
+    
+    // for programmatic navigation
+    const navigate = useNavigate();
     
     // articleError state
     const [articleError, setArticleError] = useState("");
@@ -51,8 +55,11 @@ function ArticleForm() {
             })
             .then(response => {
                 if (response.ok) {
-                    response.json().then(article => dispatch(addArticle(article)));
+                    response.json().then(article => {
+                    dispatch(addArticle(article));
                     setArticleError("");
+                    navigate(`/articles/${article.id}`)
+                })
                 } else {
                     response.json().then(err => {
                         console.error(err.error);
