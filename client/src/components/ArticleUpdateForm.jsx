@@ -13,12 +13,9 @@ function ArticleUpdateForm() {
     // access Redux store
     const selectedArticle = useSelector((state) => state.selectedArticle.value);
     const dispatch = useDispatch();
+
     // articleError state
     const [updateError, setUpdateError] = useState("");
-    // error message in response disappears after time interval
-    // setTimeout(() => {
-    //     setArticleError("");
-    // }, 5000);
 
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
@@ -50,7 +47,7 @@ function ArticleUpdateForm() {
                     setUpdateError("");
                 } else {
                     response.json().then(err => {
-                        console.log(err.error);
+                        console.error(err.error);
                         setUpdateError(err.error);
                     });
                 }

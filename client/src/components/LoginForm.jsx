@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUsers } from '../slices/usersSlice';
 import { setCurrentUser } from '../slices/currentUserSlice';
 import { setIsLoggedIn } from '../slices/isLoggedInSlice';
 // for form creation
@@ -19,11 +18,6 @@ function LoginForm() {
     
     // loginError state
     const [loginError, setLoginError] = useState("");
-
-    // error message in response disappears after time interval
-    setTimeout(() => {
-        setLoginError("");
-    }, 4000);
 
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username").max(15)
@@ -53,9 +47,13 @@ function LoginForm() {
                     response.json().then(user => {
                         dispatch(setCurrentUser(user));
                         dispatch(setIsLoggedIn(true));
+                        setLoginError("");
                     });
                 } else {
-                    response.json().then(err => setLoginError(err.error));
+                    response.json().then(err => {
+                        console.error(err.error);
+                        setLoginError(err.error);
+                    }) 
                 }
             })
             resetForm();       

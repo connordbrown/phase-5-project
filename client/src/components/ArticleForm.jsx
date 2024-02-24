@@ -18,11 +18,6 @@ function ArticleForm() {
     // articleError state
     const [articleError, setArticleError] = useState("");
 
-    // error message in response disappears after time interval
-    // setTimeout(() => {
-    //     setArticleError("");
-    // }, 5000);
-
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
@@ -60,7 +55,7 @@ function ArticleForm() {
                     setArticleError("");
                 } else {
                     response.json().then(err => {
-                        console.log(err.error);
+                        console.error(err.error);
                         setArticleError(err.error);
                     });
                 }

@@ -62,10 +62,14 @@ function SignUpForm() {
                 if (response.ok) {
                     response.json().then(newUser => {
                         dispatch(addUser(newUser));
-                        setUserSuccess("201: Signup successful")
+                        setUserSuccess("201: Signup successful");
+                        setUserError("");
                     });
                 } else {
-                    response.json().then(err => console.error(err.error));
+                    response.json().then(err => {
+                        console.error(err.error);
+                        setUserError(err.error);
+                    })
                 }
             })
             resetForm();

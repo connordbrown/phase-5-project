@@ -5,7 +5,7 @@ import { setSelectedArticle } from "../slices/articleSelectSlice";
 import { deleteArticle } from "../slices/articlesSlice";
 import '../components/styling/ArticleList.css';
 import ArticleUpdateForm from "../components/ArticleUpdateForm";
-import '../components/styling/ArticleInfo.css';
+import './styling/ArticleInfo.css';
 
 
 function ArticleInfo() {
