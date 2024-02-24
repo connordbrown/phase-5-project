@@ -18,25 +18,27 @@ function UserProfile() {
   }
 
   return(
-    <div className='user-info'>
-      <div>
-      <h1>User Profile</h1>
-      <h2>{currentUser.username}</h2>
-      <p>Email: {currentUser.email}</p>
-      <p>Age: {currentUser.age}</p>
-      <h2>My articles</h2>
-    </div>
-      <ul>
-        {userArticles.map(article => {
-          return (
-            <div key={article.id}>
-              <Link to={`/articles/${article.id}`} className='article-link'>
-                <li key={article.id} className='article'>{article.title}</li>
-              </Link>
-            </div>
-          )
-        })}
-      </ul>
+    <div>
+      <div className='user-info'>
+        <h1>User Profile</h1>
+        <h2>{currentUser.username}</h2>
+        <p>Email: {currentUser.email}</p>
+        <p>Age: {currentUser.age}</p>
+      </div>
+      <div className='article-list'>
+        <h2>My articles</h2>
+        <ul>
+          {userArticles.map(article => {
+            return (
+              <div key={article.id}>
+                <Link to={`/articles/${article.id}`} className='article-link'>
+                  <li key={article.id} className='article'>{article.title}</li>
+                </Link>
+              </div>
+            )
+          })}
+        </ul>
+      </div>
     </div>
   );
 };

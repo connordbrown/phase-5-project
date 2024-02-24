@@ -1,4 +1,4 @@
-.article:hover {
+.article-list .article:hover {
     color: yellow;
     cursor: pointer;
 }
@@ -17,4 +17,8 @@
 
 .article-link {
     text-decoration: none;
+}
+
+.user-info {
+    pointer-events: none;
 }
