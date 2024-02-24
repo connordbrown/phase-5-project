@@ -21,8 +21,12 @@ const articlesSlice = createSlice({
                 state.value[index] = updatedArticle;
             }
         },
+        deleteArticle: (state, action) => {
+            const articleID = action.payload;
+            state.value = state.value.filter(article => article.id !== articleID);
+        }
     }
 })
 
-export const { setArticles, addArticle, updateArticle } = articlesSlice.actions;
+export const { setArticles, addArticle, updateArticle, deleteArticle } = articlesSlice.actions;
 export default articlesSlice.reducer;
