@@ -33,3 +33,11 @@
     list-style: none;
     margin-left: 50px;
 }
+
+#search-form {
+    display: flex;
+}
+
+#search-form input {
+    margin-left: 10px;
+}
