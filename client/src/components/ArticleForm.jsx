@@ -26,8 +26,7 @@ function ArticleForm() {
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
         category: yup.string().required("Must select category"),
-        //tag: yup.string().required("Must add tag"),
-        //tags: yup.array().of(yup.string()).required("Must select tags"),
+        tags: yup.array().of(yup.string()).test('has-tags',"Must select tags", (value) => value && value.length > 0),
     })
 
     const formik = useFormik({
@@ -40,7 +39,7 @@ function ArticleForm() {
         },
         validationSchema: formSchema,
         onSubmit: (values, { resetForm }) => {
-            fetch(`/api/categories/${formik.values.category}/articles`, {
+            fetch("/api/articles", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -121,10 +120,13 @@ function ArticleForm() {
                             {allTags.map(tag => <option key={tag.id} value={tag.id}>{tag.title}</option>)}
                         </select>
                         <button type='button' onClick={() => {
-                            const newTags = [...formik.values.tags, formik.values.tag];
-                            formik.setFieldValue('tags', newTags);
-                            formik.setFieldValue('tag', ""); }}>Add</button>
-                        <p>{formik.errors.tag}</p>           
+                            formik.values.tags = [...formik.values.tags, formik.values.tag];
+                            formik.setFieldValue('tag', "");
+                            if (formik.errors.tags) {
+                                formik.setFieldError('tags', ""); // reset tags field error message
+                            } 
+                            }}>Add</button>
+                        <p>{formik.errors.tags}</p>           
                     </div>
                     <div id='tag-list'>
                         <ul>
