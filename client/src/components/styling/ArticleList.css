@@ -4,7 +4,11 @@
 }
 
 .article {
-    margin-left: 20px;
+    border: 1px solid grey;
+    padding: 10px;
+    margin-bottom: 20px;
+    list-style: none;
+    width: 750px;
 }
 
 .article-link:link {
@@ -16,7 +20,7 @@
 }
 
 .article-link {
-    text-decoration: none;
+    text-decoration: none; 
 }
 
 .display-article {
@@ -24,6 +28,7 @@
 }
 
 .tags {
-    display: flex;
-    justify-content: space-around;
+    display: inline;
+    list-style: none;
+    margin-left: 50px;
 }

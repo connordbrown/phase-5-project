@@ -3,7 +3,10 @@ import React from 'react';
 function About() {
     return (
       <div>
-        <h1>This is my About component!</h1>
+        <h2>About This App</h2>
+        <p>This is ArticleWriter, the handy app for creating your very own articles!
+          All you have to do is sign up, log in, and start writing!
+        </p>
       </div>
     )
 }

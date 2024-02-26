@@ -96,6 +96,7 @@ function App() {
         {isLoggedIn ? <NavBar /> : null}
       </header>
         {isLoggedIn ? <h2>Welcome, {currentUser.username}!</h2> : null}
+      <hr />
       <Outlet />
     </div>
   )

@@ -15,11 +15,11 @@ function ArticleList() {
             <li className='article' key={article.id}>
               <span>
                 {article.title} - <em>{article.user['username']}</em>
-                <ul className='tags'>
+                <span className='tags'>
                   Tags: {article.tags.map(tag => (
-                    <li key={tag.id}>{tag.title}</li>
+                    <span key={tag.id}>| {tag.title} |</span>
                   ))}
-                </ul>
+                </span>
               </span>
               <p>{article.content.slice(0, 100) + "..."}</p>
             </li>

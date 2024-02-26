@@ -14,6 +14,7 @@ function ArticleInfo() {
   const articles = useSelector((state) => state.articles.value);
   const currentUser = useSelector((state) => state.currentUser.value);
   const dispatch = useDispatch();
+  
   // for programmatic naviagation
   const navigate = useNavigate();
 

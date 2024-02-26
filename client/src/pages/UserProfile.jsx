@@ -20,13 +20,13 @@ function UserProfile() {
   return(
     <div>
       <div className='user-info'>
-        <h1>User Profile</h1>
-        <h2>{currentUser.username}</h2>
+        <h2>User Profile</h2>
+        <h3>{currentUser.username}</h3>
         <p>Email: {currentUser.email}</p>
         <p>Age: {currentUser.age}</p>
       </div>
       <div className='article-list'>
-        <h2>My articles</h2>
+        <h3>My articles</h3>
         <ul>
           {userArticles.map(article => {
             return (
