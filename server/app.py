@@ -135,10 +135,8 @@ class Articles(Resource):
     if article_dict_list := [a.to_dict() for a in Article.query.all()]:
       return make_response(article_dict_list, 200)
     return make_response({'error': '404: Articles Not Found'}, 404)
-api.add_resource(Articles, '/api/articles')
 
-class ArticlesByCategory(Resource):
-  def post(self, category_id):
+  def post(self):
     # user must be logged in to create an article
     if not session.get('user_id'):
       return make_response({'error': '401: User not logged in'}, 401)
@@ -187,8 +185,7 @@ class ArticlesByCategory(Resource):
       return make_response(new_article_data.to_dict(), 201)
     except IntegrityError:
       return make_response({'error': '422: Unprocessable Entity'}, 422)
-# articles are associated with a specific category
-api.add_resource(ArticlesByCategory, '/api/categories/<int:category_id>/articles')
+api.add_resource(Articles, '/api/articles')
 
 class ArticleByID(Resource):
   def patch(self, article_id):
