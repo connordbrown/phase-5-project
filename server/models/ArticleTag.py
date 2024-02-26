@@ -1,5 +1,6 @@
 from config import db, metadata
 
+# association table between articles and tags
 article_tags = db.Table(
     'articles_tags',
     metadata,

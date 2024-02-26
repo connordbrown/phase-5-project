@@ -12,7 +12,7 @@ from models.Tag import Tag
 
 @app.route('/')
 def home():
-  return '<h1>Welcome to Articles!</h1>'
+  return '<h1>Welcome to ArticleWriter!</h1>'
 
 
 ##### User Resources #####
@@ -262,6 +262,7 @@ class Tags(Resource):
     except IntegrityError:
       return make_response({'error': '422: Unprocessable Entity'}, 422)
 api.add_resource(Tags, '/api/tags')
+
 
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
