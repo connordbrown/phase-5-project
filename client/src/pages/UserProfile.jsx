@@ -19,12 +19,13 @@ function UserProfile() {
 
   return(
     <div>
+      <h2>User Profile</h2>
       <div className='user-info'>
-        <h2>User Profile</h2>
         <h3>{currentUser.username}</h3>
         <p>Email: {currentUser.email}</p>
         <p>Age: {currentUser.age}</p>
       </div>
+      <hr />
       <div className='article-list'>
         <h3>My articles</h3>
         <ul>

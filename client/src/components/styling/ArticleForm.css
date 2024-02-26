@@ -2,7 +2,7 @@
     display: flex;
     box-sizing: border-box;
     border: 2px solid grey;
-    width: 370px;
+    width: 550px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -11,8 +11,13 @@
     margin: 30px;
 }
 
-.form-inputs {
-    display: flex;
+.form-inputs #title {
+    width: 300px;
+}
+
+.form-inputs #content {
+    width: 300px;
+    height: 100px;
 }
 
 .form-inputs input, select {
@@ -31,4 +36,8 @@
 #button {
     display: flex;
     margin-top: 10px;
+}
+
+.error {
+    margin-left: 10px;
 }

@@ -77,7 +77,7 @@ function ArticleUpdateForm() {
                     </div>
                     <div className='form-inputs'>
                         <br />
-                        <input
+                        <textarea
                             id='content'
                             name='content'
                             type='text'

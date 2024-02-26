@@ -91,11 +91,11 @@ function ArticleForm() {
                             value={formik.values.title}
                             autoComplete='on'
                         />
-                        <p>{formik.errors.title}</p>
+                        <p className='error'>{formik.errors.title}</p>
                     </div>
                     <div className='form-inputs'>
                         <br />
-                        <input
+                        <textarea
                             id='content'
                             name='content'
                             type='text'
@@ -104,7 +104,7 @@ function ArticleForm() {
                             value={formik.values.content}
                             autoComplete='off'
                         />
-                        <p>{formik.errors.content}</p>
+                        <p className='error'>{formik.errors.content}</p>
                     </div>
                     <div className='form-inputs'>
                         <br />
@@ -112,7 +112,7 @@ function ArticleForm() {
                             <option value=''>Select a category</option>
                             {categories.map(category => <option key={category.id} value={category.id}>{category.title}</option>)}
                         </select>
-                        <p>{formik.errors.category}</p>
+                        <p className='error'>{formik.errors.category}</p>
                     </div>
                     <div className='form-inputs'>
                         <select id='tag' name='tag' value={formik.values.tag} onChange={formik.handleChange}>
@@ -126,7 +126,7 @@ function ArticleForm() {
                                 formik.setFieldError('tags', ""); // reset tags field error message
                             } 
                             }}>Add</button>
-                        <p>{formik.errors.tags}</p>           
+                        <p className='error'>{formik.errors.tags}</p>           
                     </div>
                     <div id='tag-list'>
                         <ul>
