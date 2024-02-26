@@ -36,7 +36,7 @@ function ArticleList() {
           <Link to={`/articles/${article.id}`} key={article.id} className='article-link'>
             <li className='article' key={article.id}>
               <span>
-                {article.title} - <em>{article.user['username']}</em>
+                <b>{article.title}</b> - <em>{article.user['username']}</em>
                 <span className='tags'>
                   Tags: {article.tags.map(tag => (
                     <span key={tag.id}>| {tag.title} |</span>
