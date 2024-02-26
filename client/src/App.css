@@ -1,3 +1,12 @@
 #root {
  margin: 20px;
 }
+
+#main-title {
+    display: flex;
+
+}
+
+#main-title h1 {
+    font-style: italic;
+}
