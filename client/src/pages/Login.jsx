@@ -13,7 +13,7 @@ function Login() {
 
   return (
     <div>
-      <h1>This is my Login page!</h1>
+      {newSignUp ? <h1>Sign Up</h1> : <h1>Log In</h1>}
       {newSignUp ? <SignUpForm /> : <LoginForm />}
       {newSignUp ? <p onClick={() => switchFunction()}>Return to login</p> 
                  : <p onClick={() => switchFunction()}>Not a user? Click here to sign up!</p>}

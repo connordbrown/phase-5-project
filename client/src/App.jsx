@@ -12,6 +12,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/NavBar';
 
+// main application
 function App() {
   // access Redux store
   const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
@@ -21,6 +22,7 @@ function App() {
   // enable programmatic navigation
   const navigate = useNavigate();
 
+  // get users data
   useEffect(() => {
     fetch("/api/users")
     .then(response => {
@@ -32,6 +34,7 @@ function App() {
     })
   }, [])
 
+  // check if a user is logged in
   useEffect(() => {
     fetch("/api/check_session")
     .then(response => {
@@ -46,6 +49,7 @@ function App() {
     })
   }, [])
 
+  // navigate to/from Home and Login depending on login status
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/');
@@ -54,6 +58,7 @@ function App() {
     }
   }, [isLoggedIn])
 
+  // get articles data
   useEffect(() => {
     fetch("/api/articles")
     .then(response => {
@@ -68,6 +73,7 @@ function App() {
     })
   }, [])
 
+  // get catagories data
   useEffect(() => {
     fetch("/api/categories")
     .then(response => {
@@ -79,6 +85,7 @@ function App() {
     })
   }, [])
 
+  // get tags data
   useEffect(() => {
     fetch("/api/tags")
     .then(response => {

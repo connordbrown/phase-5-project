@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './styling/UserProfile.css';
 
+// allow user to view own profile/articles
 function UserProfile() {
 
   const currentUser = useSelector((state) => state.currentUser.value);

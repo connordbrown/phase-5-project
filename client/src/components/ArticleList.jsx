@@ -3,11 +3,16 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './styling/ArticleList.css';
 
+// display list of all articles
 function ArticleList() {
 
-  const [searchItem, setSearchItem] = useState("");
+  // access Redux store
   const articles = useSelector((state) => state.articles.value)
 
+  // state for search bar
+  const [searchItem, setSearchItem] = useState("");
+
+  // filter articles by tag
   const articlesToView = articles.filter(article => {
     return article.tags.some(tag => tag.title.includes(searchItem));
   })

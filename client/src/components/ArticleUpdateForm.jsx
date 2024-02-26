@@ -8,7 +8,7 @@ import * as yup from 'yup';
 // styling
 import './styling/ArticleUpdateForm.css';
 
-// allows logged in user to update an article
+// allow logged in user to update an article
 function ArticleUpdateForm() {
     // access Redux store
     const selectedArticle = useSelector((state) => state.selectedArticle.value);
@@ -17,11 +17,13 @@ function ArticleUpdateForm() {
     // articleError state
     const [updateError, setUpdateError] = useState("");
 
+    // form validation
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
     })
 
+    // handle article update and update state
     const formik = useFormik({
         initialValues: {
             title: selectedArticle.title,

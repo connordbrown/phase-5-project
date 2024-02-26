@@ -8,11 +8,12 @@ import routes from './routes';
 import App from './App';
 import './index.css';
 
-// create Redux store
+// create Redux store for state management
 const store = configureStore({
   reducer: rootReducer,
 })
 
+// create router for navigation
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

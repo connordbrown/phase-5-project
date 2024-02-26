@@ -5,18 +5,13 @@ import { setIsLoggedIn } from '../slices/isLoggedInSlice';
 // styling
 import './styling/Logout.css';
 
-// allows user to log out
+// allow user to log out
 function LogoutButton() {
     // access Redux store
     const dispatch = useDispatch();
 
     // logoutError state
     const [logoutError, setLogoutError] = useState("");
-
-    // error in response disappears after time interval
-    setTimeout(() => {
-        setLogoutError("");
-    }, 4000);
 
     function submitLogoutRequest() {
         fetch("/api/logout", {
@@ -30,6 +25,7 @@ function LogoutButton() {
             if (response.ok) {
                 dispatch(setCurrentUser(null));
                 dispatch(setIsLoggedIn(false));
+                setLogoutError("");
             } else {
                 response.json().then(err => setLogoutError(err.error));
             }

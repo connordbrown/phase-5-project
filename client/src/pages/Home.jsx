@@ -1,6 +1,7 @@
 import React from 'react';
 import ArticleList from '../components/ArticleList';
 
+// allow user to view articles list
 function Home() {
 
   return (

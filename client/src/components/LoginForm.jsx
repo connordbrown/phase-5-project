@@ -8,17 +8,16 @@ import * as yup from 'yup';
 // styling
 import './styling/LoginForm.css';
 
-// allows user to log in
+// allow user to log in
 function LoginForm() {
     // access Redux store
-    const currentUser = useSelector((state) => state.currentUser.value);
-    const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
     const users = useSelector((state) => state.users.value);
     const dispatch = useDispatch();
     
     // loginError state
     const [loginError, setLoginError] = useState("");
 
+    // form validation
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username").max(15)
         .test("username-exists", "Invalid username", value => {
@@ -27,6 +26,7 @@ function LoginForm() {
         password: yup.string().required("Must enter a password")
     })
 
+    // handle login and update state
     const formik = useFormik({
         initialValues: {
             username: "",
@@ -62,7 +62,6 @@ function LoginForm() {
 
     return (
         <div>
-            {isLoggedIn ? <h2>Logged in: {currentUser.username}</h2> : <h2>Logged out</h2>}
             {loginError ? <p style={{'color' : 'red'}}>{loginError}</p> : null}
             <div className='form-container'>
                 <form id='login-form' onSubmit={formik.handleSubmit}>

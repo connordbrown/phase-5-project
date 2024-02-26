@@ -7,7 +7,7 @@ import * as yup from 'yup';
 // styling
 import './styling/SignUpForm.css';
 
-// allows user to sign up for app (create new user)
+// allow user to sign up for app (create new user)
 function SignUpForm() {
     // userSuccess state
     const [userSuccess, setUserSuccess] = useState("");
@@ -18,6 +18,7 @@ function SignUpForm() {
     const users = useSelector((state) => state.users.value)
     const dispatch = useDispatch();
 
+    // validate form
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username").max(15)
         .test("username-exists", "Username already exists", value => {
@@ -31,6 +32,7 @@ function SignUpForm() {
         password: yup.string().required("Must enter a password")
     })
 
+    // add a new user and update state
     const formik = useFormik({
         initialValues: {
             username: "",
@@ -68,7 +70,6 @@ function SignUpForm() {
 
     return (
         <div>
-            <h2>Sign In</h2>
             {userSuccess ? <p style={{'color' : 'green'}}>{userSuccess}</p> : null}
             {userError ? <p style={{'color' : 'red'}}>{userError}</p> : null}
             <div className='form-container'>

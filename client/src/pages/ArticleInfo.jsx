@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
-import { setSelectedArticle } from "../slices/articleSelectSlice";
 import { deleteArticle } from "../slices/articlesSlice";
 import '../components/styling/ArticleList.css';
 import ArticleUpdateForm from "../components/ArticleUpdateForm";
 import './styling/ArticleInfo.css';
 
-
+// display information about a given article - if owned by current user, can be updated/deleted
 function ArticleInfo() {
   // access Redux store
   const articlesLoaded = useSelector((state) => state.articlesLoaded.value);
@@ -24,14 +23,12 @@ function ArticleInfo() {
   // get specific endpoint - useParams() returns string
   const params = useParams();
 
+  // find article that matches params.id
   const displayArticle = articles.find(article => {
     return article.id === parseInt(params.id);
   });
 
-  useEffect(() => {
-    dispatch(setSelectedArticle(displayArticle));
-  }, [])
-
+  // delete article and update state
   function handleArticleDelete(articleID) {
     fetch(`/api/articles/${articleID}`, {
       method: "DELETE",
@@ -50,6 +47,7 @@ function ArticleInfo() {
     })
   }
 
+  // in case articles not yet loaded
   if (!articlesLoaded) {
     return <h1>Loading articles...</h1>;
   }

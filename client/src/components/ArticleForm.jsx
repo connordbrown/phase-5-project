@@ -9,7 +9,7 @@ import * as yup from 'yup';
 // styling
 import './styling/ArticleForm.css';
 
-// allows logged in user to create an article
+// allow logged in user to create an article
 function ArticleForm() {
     // access Redux store
     const categories = useSelector((state) => state.categories.value);
@@ -22,6 +22,7 @@ function ArticleForm() {
     // articleError state
     const [articleError, setArticleError] = useState("");
 
+    // form validation
     const formSchema = yup.object().shape({
         title: yup.string().required("Must enter a title").max(50),
         content: yup.string().required("Must enter content"),
@@ -29,6 +30,7 @@ function ArticleForm() {
         tags: yup.array().of(yup.string()).test('has-tags',"Must select tags", (value) => value && value.length > 0),
     })
 
+    // handle new article creation and update state - navigate to new article
     const formik = useFormik({
         initialValues: {
             title: "",

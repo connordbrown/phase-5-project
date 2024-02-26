@@ -1,5 +1,6 @@
 import React from 'react';
 
+// display information about application
 function About() {
     return (
       <div>

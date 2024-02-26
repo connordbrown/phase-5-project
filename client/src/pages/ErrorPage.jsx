@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouteError } from "react-router-dom";
 
+// catch-all for invalid client-side routes
 function ErrorPage() {
   const error = useRouteError();
   console.error(error);
