@@ -6,6 +6,7 @@ function WriteArticle() {
     
     return (
         <div>
+            <h2>Write</h2>
             <ArticleForm />
         </div>
     )

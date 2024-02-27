@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
+import { setSelectedArticle } from "../slices/articleSelectSlice";
 import { deleteArticle } from "../slices/articlesSlice";
 import '../components/styling/ArticleList.css';
 import ArticleUpdateForm from "../components/ArticleUpdateForm";
@@ -27,6 +28,9 @@ function ArticleInfo() {
   const displayArticle = articles.find(article => {
     return article.id === parseInt(params.id);
   });
+
+  // set as selected article so it can be edited
+  dispatch(setSelectedArticle(displayArticle));
 
   // delete article and update state
   function handleArticleDelete(articleID) {

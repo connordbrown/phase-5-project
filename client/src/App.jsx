@@ -100,12 +100,10 @@ function App() {
   return (
     <div className='app'>
       <header>
-        {isLoggedIn ? 
-          <div id='main-title'>
-            <h1>ArticleWriter</h1>
-            <NavBar />
-          </div>
-           : null}
+      <div id='main-title'>
+        <h1>ArticleWriter</h1>
+        {isLoggedIn ? <NavBar /> : null}
+      </div>
       </header>
         {isLoggedIn ? <h2>Welcome, {currentUser.username}!</h2> : null}
       <hr />

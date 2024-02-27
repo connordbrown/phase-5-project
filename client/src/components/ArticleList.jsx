@@ -14,7 +14,7 @@ function ArticleList() {
 
   // filter articles by tag
   const articlesToView = articles.filter(article => {
-    return article.tags.some(tag => tag.title.includes(searchItem));
+    return article.tags.some(tag => tag.title.toLowerCase().includes(searchItem.toLowerCase()));
   })
 
   return (
